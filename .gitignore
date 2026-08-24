@@ -1,0 +1,14 @@
+# Per-machine Claude Code instellingen (CLAUDE.md hoort er wel bij)
+.claude/settings.local.json
+
+# Editor- en OS-rommel
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# Voor als er ooit toch een dependency bijkomt
+node_modules/
+
+# LET OP: avondgloren.html staat hier bewust NIET in.
+# Het is gegenereerd, maar ook het bestand dat je deployt, dus het hoort in git.

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avondgloren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep: #352c4a;
+    --bg-deep-2: #4a3a5e;
+    --parchment: #ece0c4;
+    --parchment-dim: #ddceaa;
+    --ink: #26200f;
+    --ink-soft: #524a30;
+    --ember: #d97a3d;
+    --ember-deep: #a8552a;
+    --violet: #a68fc9;
+    --moss: #7c9b6b;
+    --rule: rgba(38,32,15,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 700px 420px at 50% -5%, rgba(217,122,61,0.22), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 50% -10%, var(--bg-deep-2), transparent),
+      var(--bg-deep);
+    min-height:100vh;
+    font-family:'Lora', serif;
+    color: var(--parchment);
+    padding: 48px 20px 80px;
+    display:flex;
+    justify-content:center;
+  }
+  .wrap{ width:100%; max-width: 780px; }
+  header{ text-align:center; margin-bottom: 28px; }
+  .mark{ width:46px; height:46px; margin: 0 auto 6px; position:relative; }
+  .mark svg{ width:100%; height:100%; overflow:visible; }
+  .spark{ stroke: var(--ember); stroke-width: 2.2; fill:none; stroke-linecap: round; opacity: 0.8; transform-origin: center; animation: flicker 2.6s ease-in-out infinite; }
+  .spark.s2{ animation-delay: 0.7s; opacity:0.55; }
+  .spark.s3{ animation-delay: 1.4s; opacity:0.35; }
+  @keyframes flicker{
+    0%{ transform: scale(1) translateY(0); opacity:0.3; }
+    30%{ opacity:0.85; }
+    60%{ transform: scale(1.08) translateY(-3px); }
+    100%{ transform: scale(1) translateY(0); opacity:0.3; }
+  }
+  h1{ font-family:'Fraunces', serif; font-weight: 500; font-size: 34px; margin: 0; color: var(--parchment); }
+  .subtitle{ font-style: italic; font-size: 14px; color: var(--ember); margin-top: 4px; letter-spacing: 0.04em; }
+  .daytag{ font-size: 11px; text-transform:uppercase; letter-spacing:0.14em; color: var(--parchment-dim); margin-top:10px; opacity:0.7;}
+  .layout{ display:grid; grid-template-columns: 1fr 210px; gap: 22px; align-items:start; }
+  @media (max-width: 620px){
+    .layout{ grid-template-columns: 1fr; }
+    .sidebar{ order: 2; }
+    body{ padding: 24px 12px 48px; }
+    header{ margin-bottom: 18px; }
+    h1{ font-size: 26px; }
+    .subtitle{ font-size: 13px; }
+    .page{ padding: 22px 18px; }
+    .story-text{ font-size: 16px; line-height: 1.65; }
+    .choice-btn{ padding: 14px 16px; }
+    .side-card{ padding: 14px; }
+  }
+  .page{ background: var(--parchment); color: var(--ink); border-radius: 6px; padding: 36px 38px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); position: relative; }
+  .page::before{ content:""; position:absolute; inset:10px; border: 1px solid rgba(38,32,15,0.12); border-radius: 3px; pointer-events:none; }
+  .scene-label{ font-family:'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ember-deep); margin: 0 0 10px; }
+  .story-text{ font-size: 17px; line-height: 1.75; margin: 0 0 26px; }
+  .story-text p{ margin: 0 0 14px; }
+  .story-text p:last-child{ margin-bottom:0; }
+  .choices{ display:flex; flex-direction:column; gap:10px; border-top: 1px solid var(--rule); padding-top: 20px; }
+  .choice-btn{ text-align:left; background: transparent; border: 1px solid rgba(38,32,15,0.3); border-radius: 4px; padding: 12px 16px; font-family:'Lora', serif; font-size: 15px; color: var(--ink); cursor:pointer; transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
+  .choice-btn:hover{ background: rgba(217,122,61,0.14); border-color: var(--ember-deep); }
+  .choice-btn:active{ transform: scale(0.99); }
+  .choice-btn .leaf{ color: var(--moss); margin-right: 8px; font-style: italic; }
+  .restart-row{ margin-top: 22px; text-align:center; }
+  .restart-btn{ background:none; border:none; color: var(--ember); font-family:'Lora', serif; font-style: italic; font-size: 14px; cursor:pointer; text-decoration: underline; text-underline-offset: 3px; opacity: 0.85; }
+  .restart-btn:hover{ opacity:1; }
+  .sidebar{ display:flex; flex-direction:column; gap:16px; }
+  .side-card{ background: rgba(236,224,196,0.06); border: 1px solid rgba(236,224,196,0.16); border-radius: 6px; padding: 16px; }
+  .side-title{ font-family:'Fraunces', serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); margin: 0 0 10px; }
+  .glow-track{ height: 8px; border-radius: 5px; background: rgba(236,224,196,0.15); overflow:hidden; margin-bottom: 6px; }
+  .glow-fill{ height:100%; background: linear-gradient(90deg, var(--violet), var(--ember)); width: 0%; transition: width 0.5s ease; }
+  .glow-label{ font-size: 12px; color: var(--parchment-dim); }
+  .journal-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .journal-list li{ font-size: 13px; font-style: italic; color: var(--parchment-dim); padding-left: 14px; position: relative; }
+  .journal-list li.spell::before{ content:"✦"; position:absolute; left:0; color: var(--violet); }
+  .journal-list li.note::before{ content:"❧"; position:absolute; left:0; color: var(--moss); }
+  .journal-empty{ font-size: 12px; color: rgba(236,224,196,0.62); font-style: italic; }
+  footer{ text-align:center; margin-top: 28px; font-size: 12px; color: rgba(236,224,196,0.5); font-style: italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark">
+      <svg viewBox="0 0 40 40">
+        <path class="spark s1" d="M20 6 L20 14 M20 26 L20 34 M6 20 L14 20 M26 20 L34 20" />
+        <path class="spark s2" d="M11 11 L15 15 M25 25 L29 29 M11 29 L15 25 M25 15 L29 11" />
+        <circle cx="20" cy="20" r="5" fill="none" stroke="#d97a3d" stroke-width="2"/>
+      </svg>
+    </div>
+    <h1>Avondgloren</h1>
+    <div class="subtitle">een kleine magische winkel tussen de wortels van een oude eik</div>
+    <div class="daytag" id="dayTag"></div>
+  </header>
+
+  <div class="layout">
+    <div class="page">
+      <p class="scene-label" id="sceneLabel">Voor openingstijd</p>
+      <div class="story-text" id="storyText"></div>
+      <div class="choices" id="choices"></div>
+      <div class="restart-row" id="restartRow" style="display:none;">
+        <button class="restart-btn" onclick="restart()">begin een nieuw seizoen ↺</button>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="side-card">
+        <p class="side-title">Gloed</p>
+        <div class="glow-track"><div class="glow-fill" id="glowFill"></div></div>
+        <p class="glow-label" id="glowLabel">De winkel wordt net wakker.</p>
+      </div>
+      <div class="side-card">
+        <p class="side-title">Spreukenboek</p>
+        <ul class="journal-list" id="journalList"></ul>
+        <p class="journal-empty" id="journalEmpty">Nog geen spreuk uitgesproken.</p>
+      </div>
+      <div class="side-card">
+        <p class="side-title">Oma's dagboek</p>
+        <ul class="journal-list" id="notebookList"></ul>
+        <p class="journal-empty" id="notebookEmpty">Nog niets gevonden.</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+<script>
+// Avondgloren · State en story-helpers
+// Wordt als eerste ingeladen: alles hieronder moet bestaan voor de scenes geladen worden.
+
+const state = { gloed: 20, spreuken: [], dagboek: [], tags: [], flags: {} };
+
+function tag(s, t){ s.tags.push(t); }
+
+function unlockNote(s, key, text){
+  if (s.flags['note_'+key]) return;
+  s.flags['note_'+key] = true;
+  s.dagboek.push(text);
+}
+
+// Wordt gevuld door de bestanden in src/story/.
+const STORY = {};
+
+// Avondgloren · Introductie
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  intro_1: {
+    label: "Avondgloren",
+    text: [
+      "Toen je oma vorige lente overleed, liet ze je niet alleen haar winkel na. Ze liet je ook een eigenzinnige lantaarn na, een plank vol kruiden met een eigen willetje, en klanten die al generaties lang de weg naar de oude eik weten te vinden. De lantaarn dooft trouwens nooit helemaal. Hij gloeit dof of helder, naargelang zijn humeur.",
+      "Avondgloren is namelijk geen gewone winkel. Bezoekers uit heel Amberwoud komen er niet voor brood of naalden, maar voor iets kleiners: een beetje moed voor een spannend moment, een spreuk tegen een nare droom, of soms gewoon een reden om even niet alleen te zijn.",
+      "Jij bent de nieuwe eigenaar. Een muis, net als je oma was, met haar aantekeningen nog overal tussen de potten verstopt (je hebt er tot nu toe slechts enkele gevonden) en met haar tovenaarshoed op je hoofd. Die is eigenlijk een maatje te groot voor je, maar je zet hem koppig toch op. Op de een of andere manier voel je je er zekerder door."
+    ],
+    choices: [ { text: "Ontgrendel de voordeur", next: "intro_2", leaf:"→" } ]
+  },
+
+  intro_2: {
+    label: "Een nieuw seizoen",
+    text: [
+      "Het is nu een paar maanden later, begin herfst. Je kent de winkel inmiddels aardig, al wil de lantaarn 's ochtends soms nog steeds niet meteen opleven tot een warme gloed (dan moet je hem net als vroeger voorzichtig toespreken), en staan sommige potten er nog altijd zonder etiket bij.",
+      "Vandaag is de eerste echt koude ochtend van het seizoen. Je adem hangt in wolkjes voor je gezicht als je de luiken opent, er ligt een dunne laag rijp op de bladeren voor de deur, en de wind rukt de laatste goudbruine blaadjes van de takken. Ergens buiten valt met een zacht getik een eikel tussen de wortels."
+    ],
+    choices: [ { text: "Begin de dag", next: "start", leaf:"→" } ]
+  },
+
+});
+
+// Avondgloren · Openingsochtend
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  start: {
+    day: "Vroege herfst",
+    label: "Voor openingstijd",
+    text: [
+      "Buiten hangt een lichte nevel over Amberwoud, en de wind jaagt goudbruine blaadjes tegen de ruiten. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed (oma's hoed, eigenlijk, nooit helemaal de jouwe geworden) en zet hem recht. Hij zakt toch weer scheef. Even denk je aan haar, zoals elke ochtend, en dan kijk je de winkel rond, en naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
+      "Je hebt een paar minuten voor de eerste klant voor de deur staat. Wat doe je eerst?"
+    ],
+    choices: [
+      { text: "Sus de avondlantaarn tot een goede gloed", next: "hearth", leaf:"✦" },
+      { text: "Stal de nieuwe voorraad distelpluis en eikengal-inkt uit", next: "herbs", leaf:"❦" },
+      { text: "Doe gewoon open: er wordt al ongeduldig op de stoep gewacht", next: "deur_vroeg", leaf:"🚪" }
+    ]
+  },
+
+  hearth: {
+    label: "De avondlantaarn",
+    text: [
+      "Je vouwt je pootjes om de lantaarn boven de toonbank en blaast er zachtjes tegenaan, niet om de vlam aan te wakkeren, maar om te laten weten dat je er bent, zoals je oma het altijd deed. De lantaarn sputtert, doet quasi-beledigd, en zakt dan in een warme, gelijkmatige gloed.",
+      "\"Zo,\" zeg je. Hij tikt eenmaal, tevreden met zichzelf."
+    ],
+    onEnter: (s) => { s.flags.lanternKalm = true; s.gloed += 5; },
+    choices: [ { text: "Loop naar de deur en draai het bordje om", next: "opening", leaf:"→" } ]
+  },
+
+  herbs: {
+    label: "De voorraadplank",
+    text: [
+      "Je werkt de krat door: distelpluis, zilverig en licht als adem, goed om dingen buiten te houden die er niet horen te zijn: nachtmerries, tocht, pech. Ernaast eikengal-inkt, donker en traag drogend, gebruikt om een herinnering vast te leggen zodat die niet kan wegglippen.",
+      "Je zet de potten op een rijtje voor het raam en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden."
+    ],
+    onEnter: (s) => { s.flags.kentIngredienten = true; s.gloed += 5; },
+    choices: [ { text: "Loop naar de deur en draai het bordje om", next: "opening", leaf:"→" } ]
+  },
+
+  deur_vroeg: {
+    label: "Een vroege klop",
+    text: [
+      "De lantaarn is amper aan en je hebt nog niets uitgestald, maar buiten staat iemand ongeduldig te ijsberen, en het voelt onaardig om diegene op formaliteiten te laten wachten.",
+      "Je doet open nog voordat het bordje is omgedraaid."
+    ],
+    onEnter: (s) => { s.gloed += 2; },
+    choices: [ { text: "Kijk wie het is", next: "dag1_intro", leaf:"→" } ]
+  },
+
+  opening: {
+    label: "Het bordje omdraaien",
+    text: [
+      "Je draait het houten bordje naar OPEN. Het klikt tegen de deurpost, een geluid dat het hele bos lijkt te herkennen.",
+      "Je hoeft niet lang te wachten."
+    ],
+    choices: [ { text: "Kijk wie er is", next: "dag1_intro", leaf:"→" } ]
+  },
+
+});
+
+// Avondgloren · Dag 1: Fen de kraai
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  dag1_intro: {
+    day: "Dag 1 &middot; Fen",
+    label: "Een bekende paniek",
+    text: [
+      "Het is Fen, de kraai van de open plek. Hij komt niet zozeer binnenvliegen als wel naar binnen tuimelen, met een wervelwolk van natte, goudbruine blaadjes in zijn kielzog die meteen over de vloer verspreid raken. \"Ik heb het weer gedaan,\" kondigt hij aan, alsof je het al zou moeten weten. \"Mijn wintervoorraad. Verstopt op de meest geniale plek ooit. Zo geniaal dat ik hem nu zelf niet meer kan vinden.\"",
+      "Hij ijsbeert over de toonbank, veren alle kanten op. \"De eerste sneeuw komt eraan! Ergens onder een geniale hoop bladeren liggen mijn wintervoorraden te verrotten en ik weet niet meer waar!\""
+    ],
+    choices: [
+      { text: "Zet een kop kruidenthee met kamille", next: "fen_drank_thee", leaf:"☕" },
+      { text: "Warm de amandelmelk met kaneel op", next: "fen_drank_amandel", leaf:"☕" },
+      { text: "Warm de sojamelk met honing en nootmuskaat op", next: "fen_drank_soja", leaf:"☕" }
+    ]
+  },
+
+  fen_drank_thee: {
+    label: "Kruidenthee",
+    text: [ "Fen neemt gehaast een slok, verbrandt meteen zijn tong, en drinkt onverstoorbaar door. \"Lekker,\" piept hij, ogen tranend van de hitte en misschien ook een beetje van de paniek." ],
+    choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
+  },
+  fen_drank_amandel: {
+    label: "Amandelmelk met kaneel",
+    text: [ "Fen ruikt eraan, kijkt achterdochtig naar de kaneel, en drinkt het dan in één teug leeg. \"Zoet genoeg om iets te vergeten,\" merkt hij droogjes op, \"of juist te onthouden. We zien wel welke van de twee het wordt.\"" ],
+    choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
+  },
+  fen_drank_soja: {
+    label: "Sojamelk met honing en nootmuskaat",
+    text: [ "Fen bekijkt het schuimlaagje wantrouwig, alsof het een boodschap voor hem verbergt. Na de eerste slok ontspannen zijn veren zichtbaar. \"Oké,\" geeft hij toe. \"Dit helpt al een beetje.\"" ],
+    choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
+  },
+
+  fen_na_drank: {
+    label: "Met de kop nog dampend",
+    text: [ "Met de kop nog dampend tussen zijn veren laat Fen zich eindelijk op het bankje zakken." ],
+    choices: [
+      { text: "\"Rustig. Vertel me precies wat je je nog wél herinnert.\"", next: "fen_ask", leaf:"🗨" },
+      { text: "Loop meteen naar de plank", next: "fen_spreuk", leaf:"→" }
+    ]
+  },
+
+  fen_ask: {
+    label: "Terugspoelen",
+    text: [
+      "Fen sluit zijn ogen, wat hem duidelijk moeite kost. \"Er was... een boom met een gespleten tak. En het rook er naar iets zoets. En ik dacht nog: dit onthoud ik nooit, dus ik verstop het extra goed.\" Hij kijkt je hulpeloos aan. \"Dat was, achteraf gezien, geen goed plan.\"",
+      "Het geheugen is er dus nog wel, ergens. Alleen niet toegankelijk. Dat is iets heel anders dan compleet vergeten."
+    ],
+    onEnter: (s) => { s.flags.fenGevraagd = true; },
+    choices: [ { text: "Loop naar de plank en kies iets", next: "fen_spreuk", leaf:"→" } ]
+  },
+
+  fen_spreuk: {
+    label: "Bij de plank",
+    text: [
+      "Je kijkt naar de potten. Fen kijkt naar jou, met de blik van iemand die nu werkelijk alles zou proberen, inclusief dingen die niet bestaan."
+    ],
+    dynamicChoices: (s) => {
+      const opts = [];
+      if (s.flags.kentIngredienten){
+        opts.push({ text: "Eikengal-inkt: bind de herinnering vast aan een veer die hij bij zich draagt", next: "fen_eind_inkt", leaf:"❦" });
+        opts.push({ text: "Spiegeldauw: laat met een druppel het laatste heldere moment herleven", next: "fen_eind_dauw", leaf:"❦" });
+      } else {
+        opts.push({ text: "Pak iets dat naar helderheid ruikt, en hoop maar", next: "fen_eind_gok", leaf:"?" });
+      }
+      opts.push({ text: "Geen spreuk: speel gewoon samen hardop de ochtend van toen na", next: "fen_eind_praten", leaf:"✦" });
+      return opts;
+    }
+  },
+
+  fen_eind_inkt: {
+    label: "Eikengal-inkt",
+    text: [
+      "Je laat Fen zijn eigen herinnering influisteren terwijl je hem met eikengal-inkt op een veer schrijft, niet de plek zelf maar het gevoel erbij: gespleten tak, geur van iets zoets, trots op zijn eigen sluwheid.",
+      "\"Draag deze bij je,\" zeg je. \"Bij de juiste boom begint hij te kriebelen.\" Fen bekijkt de veer wantrouwig, alsof hij hem op heterdaad wil betrappen op niet-werken.",
+      "Hij vliegt weg, veer stevig vastgeklemd, en je hoort hem in de verte al roepen: \"HIJ KRIEBELT. HIJ KRIEBELT ECHT.\" De lantaarn flakkert geamuseerd."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Eikengal-veer: een herinnering die kriebelt bij de juiste plek."); tag(s,'geheugen'); },
+    ending: true
+  },
+
+  fen_eind_dauw: {
+    label: "Spiegeldauw",
+    text: [
+      "Je laat één druppel spiegeldauw op zijn snavelpunt vallen. Even wordt zijn blik glazig. Dan schiet zijn kop omhoog. \"De beuk! De beuk met de gespleten tak, naast de plek waar het naar honingzwam ruikt!\"",
+      "\"Dat had je zelf ook geweten,\" zeg je, \"met een minuutje stilte.\" \"Ja, maar dit was sneller,\" zegt Fen, alweer bij de deur.",
+      "Hij vliegt rakelings langs de avondlantaarn naar buiten, te opgewonden om te bedanken, wat voor Fen eigenlijk een compliment is."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Spiegeldauw: één druppel om een heldere seconde terug te halen."); tag(s,'helderheid'); },
+    ending: true
+  },
+
+  fen_eind_gok: {
+    label: "Een gok",
+    text: [
+      "Je kent de kast nog niet goed genoeg om er slim gebruik van te maken, dus je pakt iets dat vaag naar dennennaald ruikt en geeft het hem mee, met een blik die meer hoop dan vertrouwen uitstraalt.",
+      "Fen ruikt eraan, niest, en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
+      "Hij vliegt in elk geval opgewekter weg dan hij binnenkwam, wat voor vandaag genoeg lijkt."
+    ],
+    onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok met dennengeur: niet feilloos, maar het hielp."); tag(s,'onzeker'); },
+    ending: true
+  },
+
+  fen_eind_praten: {
+    label: "Gewoon naspelen",
+    text: [
+      "Je slaat de plank helemaal over. In plaats daarvan laat je Fen de ochtend van het verstoppen naspelen, stap voor stap, vanaf het moment dat hij wakker werd tot het moment van geniale trots.",
+      "Halverwege zijn eigen imitatie van zichzelf ('en toen dacht ik: DIT vergeet ik nooit, ha!') houdt hij ineens stil. \"De beuk. Het was de beuk.\"",
+      "\"Zie je,\" zeg je. \"Je hoefde alleen maar jezelf serieus genoeg te nemen om het opnieuw te doorlopen.\" Fen kijkt je aan alsof je zojuist iets diepzinnigs hebt gezegd, in plaats van iets voor de hand liggends."
+    ],
+    onEnter: (s) => { s.gloed += 15; s.spreuken.push("Geen spreuk: alleen de ochtend hardop naspelen."); tag(s,'aanwezigheid'); },
+    ending: true
+  },
+
+});
+
+// Avondgloren · Dag 2: Jackie het konijn
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  dag2_intro: {
+    day: "Dag 2 &middot; Jackie",
+    label: "Een grote eerste keer",
+    text: [
+      "Voor je opendoet, veeg je eerst het stof van de hoed en zet je hem recht, inmiddels een gewoonte geworden voor je aan de dag begint. Je vraagt je af of oma dit ritueel voor of na haar ochtendthee deed.",
+      "Jackie staat al een tijdje voor de deur te wachten, dat kun je zien aan de bandensporen van heen-en-weer geloop in de aarde. Het regent inmiddels gestaag, en haar vacht plakt nat tegen haar oren. Ze is klein, ook voor een konijn, en klemt een mandje tegen zich aan.",
+      "\"Mama heeft me gevraagd dit naar tante Roos te brengen. Aan de andere kant van het beekbos. Alleen.\" Ze zegt het woord 'alleen' zoals andere konijnen het woord 'vos' zouden zeggen. \"Ik ben nog nooit alleen zo ver geweest.\""
+    ],
+    choices: [
+      { text: "Zet een kop kruidenthee met kamille", next: "jackie_drank_thee", leaf:"☕" },
+      { text: "Warm de amandelmelk met kaneel op", next: "jackie_drank_amandel", leaf:"☕" },
+      { text: "Warm de sojamelk met honing en nootmuskaat op", next: "jackie_drank_soja", leaf:"☕" }
+    ]
+  },
+
+  jackie_drank_thee: {
+    label: "Kruidenthee",
+    text: [ "Jackie houdt de kop met twee poten vast, ademt de damp diep in, en voor het eerst sinds ze binnenkwam zakken haar schouders een fractie." ],
+    choices: [ { text: "Ga verder", next: "jackie_na_drank", leaf:"→" } ]
+  },
+  jackie_drank_amandel: {
+    label: "Amandelmelk met kaneel",
+    text: [ "Ze neemt voorzichtig een slokje, en haar ogen worden groot. \"Dit smaakt als een knuffel,\" zegt ze verbaasd, en drinkt dan sneller door." ],
+    choices: [ { text: "Ga verder", next: "jackie_na_drank", leaf:"→" } ]
+  },
+  jackie_drank_soja: {
+    label: "Sojamelk met honing en nootmuskaat",
+    text: [ "Jackie warmt eerst haar poten aan de kop voor ze drinkt. \"Mama maakt dit ook altijd,\" zegt ze zacht, \"als ik bang ben voor onweer.\"" ],
+    choices: [ { text: "Ga verder", next: "jackie_na_drank", leaf:"→" } ]
+  },
+
+  jackie_na_drank: {
+    label: "Iets rustiger",
+    text: [ "De kop leeg, of toch al een stuk leger, zit Jackie iets rustiger op de kruk dan daarnet." ],
+    choices: [
+      { text: "\"Wat is precies het engste deel van dat pad, denk je?\"", next: "jackie_ask", leaf:"🗨" },
+      { text: "Loop meteen naar de plank", next: "jackie_spreuk", leaf:"→" }
+    ]
+  },
+
+  jackie_ask: {
+    label: "Het engste stukje",
+    text: [
+      "Jackie denkt lang na. \"Niet de vos, eigenlijk. Vossen zie je meestal aankomen. Het is het stuk waar de bomen zo dicht op elkaar staan dat je het licht niet meer ziet. Dan weet ik niet meer of ik nog wel de goede kant op ga.\"",
+      "Geen gevaar dus, eerder onzekerheid over de juiste richting. Dat maakt het makkelijker om iets te kiezen dat echt bij haar past."
+    ],
+    onEnter: (s) => { s.flags.jackieGevraagd = true; },
+    choices: [ { text: "Loop naar de plank en kies iets", next: "jackie_spreuk", leaf:"→" } ]
+  },
+
+  jackie_spreuk: {
+    label: "Bij de plank",
+    text: [
+      "Je kijkt naar de potten. Jackie volgt elke beweging van je poten alsof je zo een stukje van haar moed voor haar gaat inpakken, wat, eerlijk gezegd, ook precies is wat er gaat gebeuren."
+    ],
+    dynamicChoices: (s) => {
+      const opts = [];
+      if (s.flags.kentIngredienten){
+        opts.push({ text: "Geperst klaverblad: duw met een beetje geluk de kleine kansen jouw kant op", next: "jackie_eind_klaver", leaf:"❦" });
+        opts.push({ text: "Vuurvliegstof: geef een lichtgevend beetje moed voor de donkere stukken", next: "jackie_eind_vuurvlieg", leaf:"❦" });
+      } else {
+        opts.push({ text: "Pak iets dat er dapper genoeg uitziet, en hoop maar", next: "jackie_eind_gok", leaf:"?" });
+      }
+      opts.push({ text: "Geen spreuk: teken samen het pad op de vloer na tot ze het uit haar hoofd kent", next: "jackie_eind_praten", leaf:"✦" });
+      return opts;
+    }
+  },
+
+  jackie_eind_klaver: {
+    label: "Geperst klaverblad",
+    text: [
+      "Je naait een gedroogd klaverblaadje in de voering van haar mandje, onopvallend, zoals je oma het ooit bij jou deed voor je eerste boodschap alleen. \"Dit duwt de kleine dingen een beetje jouw kant op,\" leg je uit. \"Het beslist niet voor je. Het helpt gewoon een beetje mee.\"",
+      "Jackie drukt het mandje tegen zich aan alsof het al werkt. Misschien doet het dat ook wel, op een manier die niets met klaverblad te maken heeft.",
+      "Ze vertrekt met kleine, vastberaden sprongetjes, en bij de bosrand kijkt ze nog één keer om, niet uit angst ditmaal, maar gewoon om te zwaaien."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Klaverblad in de voering: voor een klein duwtje geluk."); tag(s,'geluk'); },
+    ending: true
+  },
+
+  jackie_eind_vuurvlieg: {
+    label: "Vuurvliegstof",
+    text: [
+      "Je strooit een vingertopje vuurvliegstof in het mandje, waar het een zacht, warm schijnsel opgeeft, net genoeg om bij de donkere stukken bos gezelschap te houden. \"Als het licht wegvalt,\" zeg je, \"til je gewoon het deksel op.\"",
+      "Jackie test het meteen, klapt het mandje open en dicht, en giechelt bij het gloedje dat naar buiten piept. Voor het eerst sinds ze binnenkwam, ziet ze eruit als een konijn dat gewoon een leuk klusje gaat doen.",
+      "Ze huppelt de deur uit, mandje half open, alsof ze niet kan wachten om het licht te laten zien aan het donkerste stuk bos dat ze kan vinden."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Vuurvliegstof in het mandje: gezelschap voor de donkere stukken."); tag(s,'moed'); },
+    ending: true
+  },
+
+  jackie_eind_gok: {
+    label: "Een gok",
+    text: [
+      "Je kent de kast nog niet goed genoeg, dus je pakt iets dat er warm en vriendelijk uitziet en stopt het tussen de spulletjes in haar mandje, zonder helemaal zeker te zijn wat het doet.",
+      "\"Wat is het?\" vraagt Jackie. \"Een beetje van alles wat goed voelt,\" zeg je eerlijk, en om de een of andere reden is dat precies het juiste antwoord.",
+      "Ze knikt, alsof vaagheid met goede bedoelingen ook een soort magie is, en vertrekt met net iets meer rechte rug dan ze binnenkwam."
+    ],
+    onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok van iets warms: vaag, maar goedbedoeld."); tag(s,'onzeker'); },
+    ending: true
+  },
+
+  jackie_eind_praten: {
+    label: "Het pad natekenen",
+    text: [
+      "Je slaat de plank over. In plaats daarvan teken je met krijt het hele pad op de vloer: hier de brug, hier het dichte stuk, hier de open plek waar tante Roos altijd theewater klaarzet.",
+      "Jackie loopt het krijtpad drie keer over, hardop de bochten benoemend, tot ze het zonder te kijken kan lopen. \"Ik ken het al,\" zegt ze verbaasd. \"Ik wist het gewoon niet dat ik het kende.\"",
+      "Ze vertrekt zonder spreuk, zonder charme, alleen met een pad dat ineens vertrouwd voelt, wat misschien het beste soort magie is voor vandaag."
+    ],
+    onEnter: (s) => { s.gloed += 15; s.spreuken.push("Geen spreuk: alleen het pad samen leren kennen."); tag(s,'aanwezigheid'); },
+    ending: true
+  },
+
+});
+
+// Avondgloren · Dag 3: Louise & Levi
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  dag3_intro: {
+    day: "Dag 3 &middot; Louise &amp; Levi",
+    label: "Twee stemmen tegelijk",
+    text: [
+      "Het stof van de hoed vegen kost vandaag twee tellen langer dan gewoonlijk: er zit een spinnenweb verstrikt in de rand. Heel even lijkt het alsof oma erom zou hebben gelachen. Buiten giert de wind extra hard door de beukenrij, en met elke vlaag kletteren er eikels tegen de luiken.",
+      "Op je oma's oude schrijftafel ligt, tussen twee potten distelpluis, een dun vergeeld blaadje dat je eerder nog niet was opgevallen. Je stopt het in de la voor later, want er wordt op de deur gebonkt, aan twee kanten tegelijk, wat meestal maar één ding betekent: Louise en Levi.",
+      "Het zijn de eekhoorntweeling van de beukenrij, en ze praten allebei tegelijk door elkaar heen zodra de deur opengaat, met een paar meegewaaide blaadjes die achter hen naar binnen dwarrelen. \"Zij heeft het grootste deel van de voorraad genomen...\" \"Hij heeft niet eens geholpen met verzamelen, dus...\" \"Ik heb wél geholpen, ik heb alleen niet geteld...\""
+    ],
+    onEnter: (s) => { unlockNote(s, 'n1', "Uit een geel geworden bladzijde: 'Het gaat nooit om de juiste kruiden. Het gaat om de juiste vraag stellen voordat je iets in de pot gooit.'"); },
+    choices: [
+      { text: "Zet twee koppen kruidenthee met kamille", next: "le_drank_thee", leaf:"☕" },
+      { text: "Warm amandelmelk met kaneel op, voor allebei", next: "le_drank_amandel", leaf:"☕" },
+      { text: "Zet één grote kop warme sojamelk met honing, om te delen", next: "le_drank_soja", leaf:"☕" }
+    ]
+  },
+
+  le_drank_thee: {
+    label: "Kruidenthee",
+    text: [ "Je zet twee koppen kamillethee neer. Louise slaat de hare bijna meteen achterover; Levi blaast eerst drie keer voorzichtig, wat Louise zichtbaar irriteert." ],
+    choices: [ { text: "Ga verder", next: "le_na_drank", leaf:"→" } ]
+  },
+  le_drank_amandel: {
+    label: "Amandelmelk met kaneel",
+    text: [ "Bij de geur van kaneel zwijgen ze allebei even. \"Net als vroeger,\" mompelt Levi. \"Toen jullie nog niet ruzieden,\" vul jij aan, en niemand van de twee spreekt dat tegen." ],
+    choices: [ { text: "Ga verder", next: "le_na_drank", leaf:"→" } ]
+  },
+  le_drank_soja: {
+    label: "Sojamelk met honing",
+    text: [ "Je zet expres één grote kop tussen hen in, in plaats van twee kleine. Ze kijken er allebei achterdochtig naar, tot de honger het wint van de trots, en ze om beurten slurpen zonder dat iemand het hardop afspreekt." ],
+    choices: [ { text: "Ga verder", next: "le_na_drank", leaf:"→" } ]
+  },
+
+  le_na_drank: {
+    label: "Even stil",
+    text: [ "Met warme koppen tussen hun poten zijn ze allebei, heel even, stil genoeg om echt te luisteren." ],
+    choices: [
+      { text: "\"Louise, jij eerst. Levi, wachten.\"", next: "le_louise_eerst", leaf:"🗨" },
+      { text: "\"Levi, jij eerst. Louise, wachten.\"", next: "le_levi_eerst", leaf:"🗨" }
+    ]
+  },
+
+  le_louise_eerst: {
+    label: "Louise's kant",
+    text: [
+      "Louise haalt diep adem, duidelijk opgelucht dat ze als eerste mag. \"Ik heb drie weken lang elke ochtend vroeg verzameld, terwijl hij nog lag te slapen. Dan is het toch niet gek dat ik meer heb?\"",
+      "Ze klinkt minder boos dan moe, alsof ze dit al veel vaker heeft moeten uitleggen, aan zichzelf misschien wel het meest."
+    ],
+    choices: [ { text: "Luister nu naar Levi", next: "le_midden", leaf:"→" } ]
+  },
+
+  le_levi_eerst: {
+    label: "Levi's kant",
+    text: [
+      "Levi kijkt eerst zijn zus aan voor hij begint, alsof hij toestemming vraagt om ook iets te mogen voelen. \"Ik zoek langzamer uit, dat is alles. Ik controleer of noten wel goed zijn voor ik ze meeneem. Dat telt toch ook mee, ook al gaat het niet snel?\"",
+      "Pas dan besef je het: hij klinkt niet lui. Hij klinkt vooral bang dat 'langzaam' hetzelfde is als 'nutteloos'."
+    ],
+    choices: [ { text: "Luister nu naar Louise", next: "le_midden", leaf:"→" } ]
+  },
+
+  le_midden: {
+    label: "Twee kanten van dezelfde voorraad",
+    text: [
+      "Nu je allebei hebt gehoord, wordt duidelijk dat dit geen ruzie is over wie het beste werk levert, maar over wie zich het meest gezien voelt: Louise, die vroeg opstaat en bang is dat niemand het merkt; Levi, die zorgvuldig is en bang is dat niemand daar waarde aan hecht.",
+      "Ze zwijgen allebei, wat voor deze twee bijna een prestatie op zich is."
+    ],
+    choices: [
+      { text: "Brouw een spinragdraad-band voor hen samen", next: "le_eind_spinrag", leaf:"❦" },
+      { text: "Geen spreuk: laat hen samen hardop tellen, om beurten", next: "le_eind_praten", leaf:"✦" }
+    ]
+  },
+
+  le_eind_spinrag: {
+    label: "Spinragdraad",
+    text: [
+      "Je vlecht een dunne spinragdraad tot twee armbandjes, één voor elk, verbonden door een enkele draad die knapt zodra een van beiden te ver bij de ander vandaan blijft, niet als straf maar als herinnering om terug te komen.",
+      "\"Het is geen eerlijkheidsspreuk,\" leg je uit. \"Ik kan niet toveren dat jullie evenveel hebben gedaan. Het is een 'kom terug en praat'-spreuk.\"",
+      "Louise en Levi bekijken hun bandjes, dan elkaar, en lopen samen de deur uit, nog steeds pratend, alleen zachter nu, om beurten in plaats van tegelijk."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Spinragdraad-band: een herinnering om terug te komen en te praten."); tag(s,'harmonie'); },
+    ending: true
+  },
+
+  le_eind_praten: {
+    label: "Samen tellen",
+    text: [
+      "Je slaat de plank over en haalt in plaats daarvan een schaaltje eikels tevoorschijn. \"Tel om beurten,\" zeg je. \"Hardop. Ik wil horen hoe het klinkt als jullie allebei evenveel aan het woord zijn.\"",
+      "Het begint stijfjes (\"één\", \"twee\", \"drie\"), maar ergens rond de twintig begint Levi te lachen om zijn eigen telfoutje, en Louise lacht mee in plaats van te corrigeren.",
+      "Ze vertrekken zonder spreuk, met een schaaltje geleende eikels en, voor het eerst in weken, een gesprek dat niet door elkaar heen loopt."
+    ],
+    onEnter: (s) => { s.gloed += 15; s.spreuken.push("Geen spreuk: alleen samen hardop tellen."); tag(s,'aanwezigheid'); },
+    ending: true
+  },
+
+});
+
+// Avondgloren · Dag 4: Mick de mol
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  dag4_intro: {
+    day: "Dag 4 &middot; Mick",
+    label: "Een voorzichtige klop",
+    text: [
+      "Je veegt het stof van de hoed en zet hem recht, en denkt aan hoe oma altijd zei dat een goede tovenaar zijn hoed nooit hoeft te controleren om te weten of hij goed zit. Jij controleert hem toch, elke ochtend opnieuw. Buiten regent het pijpenstelen, en overal tussen de boomwortels glinsteren al plassen.",
+      "De klop op de deur is zo zacht dat je hem bijna mist, half weggedrukt door het geluid van de regen die buiten tegen de luiken slaat. Op de stoep staat Mick, de mol van de akkerrand, doorweekt, met aarde tot aan zijn schouders en ogen die angstvallig elk oogcontact ontwijken.",
+      "\"Ik groef een nieuwe gang naar de composthoop,\" begint hij, langzaam, alsof elk woord eerst gecontroleerd moet worden. \"Ik schatte de afstand verkeerd in. Brak dwars door de wortelkelder van de familie Grijs. Water liep naar binnen. Een deel van hun wintervoorraad is bedorven.\" Hij zwijgt. \"Sindsdien... vertrouw ik mijn eigen gangen niet meer.\""
+    ],
+    choices: [
+      { text: "Zet een kop kruidenthee met kamille", next: "mick_drank_thee", leaf:"☕" },
+      { text: "Warm de amandelmelk met kaneel op", next: "mick_drank_amandel", leaf:"☕" },
+      { text: "Warm de sojamelk met honing en nootmuskaat op", next: "mick_drank_soja", leaf:"☕" }
+    ]
+  },
+
+  mick_drank_thee: {
+    label: "Kruidenthee",
+    text: [ "Mick omklemt de kop met beide poten, alsof hij bang is hem ook nog te laten vallen. Langzaam, heel langzaam, ontspant zijn greep." ],
+    choices: [ { text: "Ga verder", next: "mick_na_drank", leaf:"→" } ]
+  },
+  mick_drank_amandel: {
+    label: "Amandelmelk met kaneel",
+    text: [ "Hij neemt een voorzichtige slok, test de temperatuur eerst met zijn snuit en dan pas met zijn mond. \"Veilig,\" mompelt hij, meer tegen zichzelf dan tegen jou." ],
+    choices: [ { text: "Ga verder", next: "mick_na_drank", leaf:"→" } ]
+  },
+  mick_drank_soja: {
+    label: "Sojamelk met honing en nootmuskaat",
+    text: [ "De geur van nootmuskaat lijkt hem ergens aan te herinneren. Hij ontspant net genoeg om zijn schouders te laten zakken, al blijft zijn blik op de grond gericht." ],
+    choices: [ { text: "Ga verder", next: "mick_na_drank", leaf:"→" } ]
+  },
+
+  mick_na_drank: {
+    label: "Wat rustiger",
+    text: [ "Met de warme kop tussen zijn poten durft Mick eindelijk iets verder te vertellen." ],
+    choices: [
+      { text: "\"Wat bedoel je precies, 'niet meer vertrouwen'?\"", next: "mick_ask", leaf:"🗨" },
+      { text: "Loop meteen naar de plank", next: "mick_spreuk", leaf:"→" }
+    ]
+  },
+
+  mick_ask: {
+    label: "De twijfel achter de twijfel",
+    text: [
+      "Mick friemelt aan een kluitje aarde tussen zijn poten. \"Ik groef altijd op gevoel. Nooit hoeven meten, nooit hoeven twijfelen: ik wíst gewoon waar de gang moest buigen. Nu graaf ik expres te langzaam, controleer ik alles drie keer, en toch voelt elke afslag als gokken.\"",
+      "Hij kijkt eindelijk op. \"Het is niet dat ik niet meer kán graven. Het is dat ik mezelf niet meer geloof als ik het doe.\"",
+      "Het gaat er dus niet om een betere gang te vinden. Het gaat erom dat hij zijn eigen gevoel weer leert vertrouwen."
+    ],
+    onEnter: (s) => { s.flags.mickGevraagd = true; },
+    choices: [ { text: "Loop naar de plank en kies iets", next: "mick_spreuk", leaf:"→" } ]
+  },
+
+  mick_spreuk: {
+    label: "Bij de plank",
+    text: [
+      "Je kijkt naar de potten. Mick kijkt naar zijn eigen poten, alsof hij ze op dit moment niet als de zijne herkent."
+    ],
+    dynamicChoices: (s) => {
+      const opts = [];
+      if (s.flags.kentIngredienten){
+        opts.push({ text: "Trillingsdraad: span een draad die precies terugtrilt zoals zijn gevoel dat ooit deed", next: "mick_eind_trilling", leaf:"❦" });
+        opts.push({ text: "Vuurvliegstof: geef hem de moed om het gewoon te proberen, niet om iets te repareren", next: "mick_eind_vuurvlieg", leaf:"❦" });
+      } else {
+        opts.push({ text: "Pak iets dat naar aarde en zekerheid ruikt, en hoop maar", next: "mick_eind_gok", leaf:"?" });
+      }
+      opts.push({ text: "Geen spreuk: vraag gewoon wanneer hij zijn gangen voor het laatst wél vertrouwde", next: "mick_eind_praten", leaf:"✦" });
+      return opts;
+    }
+  },
+
+  mick_eind_trilling: {
+    label: "Trillingsdraad",
+    text: [
+      "Je spant een trillingsdraad langs het begin van een proefgang en laat Mick voelen hoe die exact terugtrilt op elke beweging van zijn snuit, niet om voor hem te beslissen maar om hem te laten zien dat zijn gevoel, letterlijk, nog steeds klopt.",
+      "\"Dit is geen vervanging voor je instinct,\" zeg je. \"Het is gewoon een bewijs dat het er nog is.\" Mick graaft twee proefmeters, aarzelend eerst, dan met iets van zijn oude snelheid.",
+      "\"Het klopte,\" zegt hij verbaasd, alsof hij dat zelf niet had durven geloven. Hij neemt de draad mee, niet om elke gang mee te controleren, maar voor de dagen dat hij het zelf nog niet gelooft."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Trillingsdraad: bewijs dat zijn instinct nog klopte."); tag(s,'instinct'); },
+    ending: true
+  },
+
+  mick_eind_vuurvlieg: {
+    label: "Vuurvliegstof",
+    text: [
+      "Je geeft hem geen bewijs, maar een duwtje: een klein beetje vuurvliegstof, genoeg om één gang lang gewoon door te zetten zonder halverwege te stoppen om te twijfelen.",
+      "\"Ik kan je gevoel niet repareren,\" zeg je eerlijk. \"Maar ik kan je wel de moed geven om het gewoon nog een keer te proberen. De rest moet van jou komen.\"",
+      "Die middag graaft Mick, langzaam maar zonder te stoppen, een korte proefgang naast zijn eigen tunnel. Aan het einde staat hij, ongeschonden, zelf verbaasd naar zijn eigen pootafdrukken te kijken."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Vuurvliegstof: een duwtje om het gewoon nog eens te proberen."); tag(s,'moed'); },
+    ending: true
+  },
+
+  mick_eind_gok: {
+    label: "Een gok",
+    text: [
+      "Je kent de kast nog niet goed genoeg, dus je geeft hem iets dat naar vochtige aarde na regen ruikt, in de hoop dat vertrouwdheid zelf al iets doet.",
+      "Mick ruikt eraan, lang, en zijn schouders zakken een fractie. \"Dit ruikt naar de gang van vroeger,\" zegt hij zacht. \"Voor het ongeluk.\"",
+      "Hij vertrekt niet genezen, maar wel iets rustiger, met de geur van een gang die ooit wél vanzelfsprekend voelde."
+    ],
+    onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok naar natte aarde: een geur die iets terugbracht."); tag(s,'onzeker'); },
+    ending: true
+  },
+
+  mick_eind_praten: {
+    label: "Wanneer voelde het voor het laatst goed?",
+    text: [
+      "Je slaat de plank over. \"Wanneer,\" vraag je, \"vertrouwde je je eigen gangen voor het laatst zonder erover na te denken?\" Mick moet lang nadenken, alsof de vraag zelf ongebruikelijk is.",
+      "\"Vanochtend,\" zegt hij uiteindelijk, verrast door zijn eigen antwoord. \"De gang naar hier. Ik heb er niet over nagedacht. Ik liep gewoon.\" Hij kijkt naar zijn eigen sporen bij de deur, alsof hij ze voor het eerst ziet.",
+      "\"Misschien vertrouw ik mezelf meer dan ik denk,\" zegt hij, half tegen jou, half tegen zichzelf. Hij vertrekt zonder spreuk, alleen met het bewijs dat al die tijd al bij hem lag."
+    ],
+    onEnter: (s) => { s.gloed += 15; s.spreuken.push("Geen spreuk: alleen de vraag wanneer het wél goed voelde."); tag(s,'aanwezigheid'); },
+    ending: true
+  },
+
+});
+
+// Avondgloren · Dag 5: Barry de egel
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  dag5_intro: {
+    day: "Dag 5 &middot; Barry",
+    label: "Wakker gehouden",
+    text: [
+      "De hoed heeft vandaag amper stof nodig, gisteren nog grondig gedaan, maar je zet hem toch recht, uit gewoonte. Heel even denk je aan oma's laatste winter, voor je de gedachte wegduwt en de dag begint. Buiten is de wind eindelijk gaan liggen, maar hij heeft een dikke laag losse bladeren voor de drempel achtergelaten, goud en bruin door elkaar.",
+      "Terwijl je de toonbank afveegt, valt er een tweede blaadje uit de kier van een oude plank, ook in oma's handschrift. Je leest het twee keer voor je het wegstopt bij het eerste.",
+      "Buiten klinkt geritsel dat te onrustig is voor gewoon lopen door bladeren. Het is Barry, de egel van de heuvelrand, die zich er dwars doorheen worstelt, stekels alle kanten op en ogen die eruitzien alsof ze al dagen niet echt dicht zijn geweest."
+    ],
+    onEnter: (s) => { unlockNote(s, 'n2', "'De moeilijkste spreuken zijn de spreuken die niemand kan zien. Een gedachte die je met iemand deelt. Dat is ook magie, al staat het in geen enkel receptenboek.'"); },
+    choices: [ { text: "Laat Barry binnen", next: "barry_arrival", leaf:"→" } ]
+  },
+
+  barry_arrival: {
+    label: "Een bezoeker",
+    text: [
+      "Barry's stekels staan alle kanten op, zijn mandje met paddenstoelen voor de markt klemt hij zo stevig vast dat zijn pootjes ervan trillen. \"Ik blijf dromen over de brand,\" zegt hij, zonder omhaal, alsof hij de zin al honderd keer heeft geoefend. \"Die van afgelopen winter. Ik slaap niet meer goed sindsdien.\"",
+      "Hij kijkt niet helemaal naar je. \"Is er... iets voor? Voordat ik straks op de markt sta te slapen terwijl ik rechtop sta?\""
+    ],
+    choices: [
+      { text: "Zet een kop kruidenthee met kamille", next: "barry_drank_thee", leaf:"☕" },
+      { text: "Warm de amandelmelk met kaneel op", next: "barry_drank_amandel", leaf:"☕" },
+      { text: "Warm de sojamelk met honing en nootmuskaat op", next: "barry_drank_soja", leaf:"☕" }
+    ]
+  },
+
+  barry_drank_thee: {
+    label: "Kruidenthee",
+    text: [ "Barry drinkt de thee in kleine slokjes, zijn stekels langzaam plat tegen zijn rug zakkend naarmate de kop leger wordt." ],
+    choices: [ { text: "Ga verder", next: "barry_na_drank", leaf:"→" } ]
+  },
+  barry_drank_amandel: {
+    label: "Amandelmelk met kaneel",
+    text: [ "Bij de eerste slok sluit hij heel even zijn ogen. \"Dit rook mijn moeder ook altijd,\" zegt hij, en het klinkt niet verdrietig. Gewoon zacht." ],
+    choices: [ { text: "Ga verder", next: "barry_na_drank", leaf:"→" } ]
+  },
+  barry_drank_soja: {
+    label: "Sojamelk met honing en nootmuskaat",
+    text: [ "Hij houdt de kop lang vast zonder te drinken, gewoon om de warmte te voelen. Als hij eindelijk drinkt, is het bijna een zucht." ],
+    choices: [ { text: "Ga verder", next: "barry_na_drank", leaf:"→" } ]
+  },
+
+  barry_na_drank: {
+    label: "Iets rustiger",
+    text: [ "Zijn stekels liggen al iets platter dan toen hij binnenkwam." ],
+    choices: [
+      { text: "\"Ga zitten. Vertel me wat er in de droom gebeurt.\"", next: "barry_ask", leaf:"🗨" },
+      { text: "Loop meteen naar de plank", next: "barry_spreuk", leaf:"→" }
+    ]
+  },
+
+  barry_ask: {
+    label: "Luisteren",
+    text: [
+      "Barry trekt zich iets strakker op. \"Het is niet echt de brand zelf. Het is dat ik in de droom de anderen niet kan vinden. Iedereen is er gewoon niet, en ik zoek, en ik weet best dat ze in het echt gewoon in orde zijn. Ze zijn in orde,\" voegt hij toe, alsof hij zichzelf overtuigt.",
+      "Geen angst dus voor het vuur zelf. Angst om er alleen voor te staan. Dat is een andere soort spreuk dan je eerst dacht."
+    ],
+    onEnter: (s) => { s.flags.barryGevraagd = true; },
+    choices: [ { text: "Loop naar de plank en kies iets", next: "barry_spreuk", leaf:"→" } ]
+  },
+
+  barry_spreuk: {
+    label: "Bij de plank",
+    text: [
+      "Je kijkt naar de potten. Barry kijkt liever naar de gloed van de avondlantaarn dan naar jou, makkelijker om op iets te hopen dat geen gezicht heeft."
+    ],
+    dynamicChoices: (s) => {
+      const opts = [];
+      if (s.flags.kentIngredienten){
+        opts.push({ text: "Distelpluis: houd met een bescherming de brand-droom er helemaal buiten", next: "barry_eind_distel", leaf:"❦" });
+        opts.push({ text: "Eikengal-inkt: bind een veilige herinnering vast om eerst te landen", next: "barry_eind_inkt", leaf:"❦" });
+      } else {
+        opts.push({ text: "Pak iets dat er warmst uitziet, en hoop maar", next: "barry_eind_gok", leaf:"?" });
+      }
+      opts.push({ text: "Geen spreuk: zit gewoon een minuut samen bij de lantaarn", next: "barry_eind_praten", leaf:"✦" });
+      return opts;
+    }
+  },
+
+  barry_eind_distel: {
+    label: "Distelpluis",
+    text: [
+      "Je verwerkt distelpluis tot een klein charme, licht als een ingehouden adem, en bindt het aan de bandriem van zijn mandje waar het de hele dag wind kan vangen. \"Dit houdt de brand-droom er helemaal buiten,\" leg je uit. \"Niet alleen vannacht. Tot hij vanzelf verslijt.\"",
+      "Barry raakt het aan alsof het zou kunnen oplossen. \"Gewoon... buiten houden?\" \"Gewoon dat,\" zeg je.",
+      "Hij vertrekt rustiger, mandje in balans, stekels voor het eerst sinds hij binnenkwam plat tegen zijn rug. De lantaarn wordt een tikkeltje helderder, alsof hij het goedkeurt."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Distelpluis-charme: om een nare droom buiten te houden."); tag(s,'bescherming'); },
+    ending: true
+  },
+
+  barry_eind_inkt: {
+    label: "Eikengal-inkt",
+    text: [
+      "Je vraagt Barry om één echt veilige herinnering (iets kleins is prima) en na even nadenken kiest hij zijn moeder die 's avonds zijn stekels telt voor het slapengaan. Je schrijft het met eikengal-inkt op een reepje berkenbast, vouwt het dubbel, en stopt het in zijn mandje.",
+      "\"Lees het voor je gaat slapen,\" zeg je. \"Het wist de droom niet. Het geeft je gedachten alleen een andere plek om eerst te landen.\"",
+      "Barry knikt langzaam, alsof dit meer voor hem klopt dan een bescherming zou hebben gedaan. Hij vertrekt met het mandje net iets minder krampachtig vastgehouden."
+    ],
+    onEnter: (s) => { s.gloed += 20; s.spreuken.push("Eikengal-inkt: een veilige herinnering om eerst op te landen."); tag(s,'geheugen'); },
+    ending: true
+  },
+
+  barry_eind_gok: {
+    label: "Een gok",
+    text: [
+      "Je kent de kast nog niet goed genoeg, dus je gaat op gevoel af: iets rond ruikend, een beetje als mos na regen, de magische versie van een hand op de schouder.",
+      "Het is niet precies de juiste spreuk voor wat Barry nodig heeft, maar het is goedbedoeld, en hij drinkt het rustig op en lijkt, zo niet genezen, dan toch minder alleen met de droom.",
+      "\"Dank je,\" zegt hij, zachter dan toen hij binnenkwam. \"Ik denk dat ik vooral nodig had dat iemand het serieus nam.\" Hij vertrekt richting de markt, in een tempo dat niet gehaast is."
+    ],
+    onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok, mosgeurig: niet precies goed, maar goedbedoeld."); tag(s,'onzeker'); },
+    ending: true
+  },
+
+  barry_eind_praten: {
+    label: "Bij de lantaarn",
+    text: [
+      "Je slaat de plank helemaal over en gaat gewoon naast Barry op het bankje onder de toonbanklantaarn zitten, dichtbij genoeg dat de warmte jullie allebei bereikt. Je zegt niets nuttigs. Je probeert het ook niet.",
+      "De lantaarn tikt door, gelijkmatig, en na een tijdje valt Barry's ademhaling samen met dat ritme, zonder dat een van jullie het benoemt.",
+      "\"Ik denk niet dat ik een spreuk nodig had,\" zegt Barry uiteindelijk, terwijl hij opstaat, stekels voor het eerst echt plat. \"Ik moest gewoon even niet alleen zijn met het.\" Hij vertrekt. De lantaarn gloeit warm en helder op, alsof dit precies zijn plan was."
+    ],
+    onEnter: (s) => { s.gloed += 15; s.spreuken.push("Geen spreuk: alleen de lantaarn, en niet alleen zijn."); tag(s,'aanwezigheid'); },
+    ending: true
+  },
+
+});
+
+// Avondgloren · Finale
+// Scenes worden aan het STORY-object toegevoegd; build.js voegt alle bestanden samen.
+
+Object.assign(STORY, {
+
+  finale_intro: {
+    day: "Eerste vorst",
+    label: "Het Feest van de Eerste Vorst",
+    text: [
+      "De eerste vorst van het seizoen ligt als suiker over Amberwoud. Dennenappels en verkleurde bladeren knerpen onder elke poot die de winkel nadert. Voor Avondgloren zijn lantaarns opgehangen tussen de takken, niet van jou maar van de buren, die besloten hebben dat de winkel dit ook wel verdient. Je veegt het stof van de hoed, uit gewoonte, en zet hem recht. Voor het eerst sinds je de winkel overnam, blijft hij ook echt recht zitten.",
+      "Fen zit al op de vensterbank, veel te dicht bij de warme ruit. Jackie helpt Louise en Levi een tafel vol eikels uitstallen zonder dat iemand ruzie maakt over wie er meer heeft neergezet. Mick graaft, zonder aarzelen, een klein pad door de sneeuw naar de deur. En daar, in de deuropening, staat Barry, stekels ontspannen, die een kom warme bessen naar binnen brengt.",
+      "Tussen de opgeruimde potten vindt je een laatste blaadje van oma, alsof het al die tijd op dit moment had liggen wachten."
+    ],
+    onEnter: (s) => { unlockNote(s, 'n3', "'Als de winkel ooit een echte specialiteit heeft gehad, was het dit: opletten wat iemand nodig heeft, niet wat er in de kast staat.'"); },
+    choices: [ { text: "Lees het blaadje", next: "finale_eind", leaf:"→" } ]
+  },
+
+  finale_eind: {
+    label: "Wat de winkel eigenlijk doet",
+    text: [
+      "Je vouwt het laatste blaadje open. Geen recept deze keer: gewoon een paar zinnen, in het handschrift dat je inmiddels beter kent dan je eigen gedachten.",
+      "Je kijkt naar de winkel om je heen: naar Fen op de vensterbank, naar het rustige gepraat van Louise en Levi, naar Mick's voetstappen die vol vertrouwen door de sneeuw lopen, naar Barry die de kom bessen op tafel zet zonder één keer om te kijken naar de deur.",
+      "SIGNATURE_LINE",
+      "Buiten begint het licht te zachtjes te vallen zoals het bij de eerste vorst hoort. Binnen blijft de avondlantaarn gloeien, precies zoals hij dat al deed voor jij de winkel overnam, en precies zoals hij dat, vermoed je, nog heel lang zal blijven doen."
+    ],
+    endingSignature: true,
+    ending: true
+  }
+
+});
+
+// Avondgloren · Slotzinnen per signatuur
+// De meest gekozen tag bepaalt welke zin in finale_eind terechtkomt.
+
+const SIGNATURES = {
+  geheugen: "Je merkt dat je deze herfst vaker naar herinneringen greep dan naar bezweringen, alsof je, net als oma, had geleerd dat het verleden vaak het zachtste antwoord geeft.",
+  helderheid: "Je merkt dat je deze herfst vaak koos voor helderheid boven troost: een korte, scherpe waarheid, in plaats van een lange omweg eromheen.",
+  geluk: "Je merkt dat je deze herfst het vaakst naar een beetje geluk reikte, niet om iets te beslissen voor een ander, maar om de kansen net iets vriendelijker te maken.",
+  moed: "Je merkt dat je deze herfst het vaakst koos voor een duwtje moed, niet om iemands angst weg te toveren, maar om te zeggen: probeer het toch maar, ik sta hier.",
+  bescherming: "Je merkt dat je deze herfst het vaakst koos om iets simpelweg buiten te houden: niet elk probleem hoeft opgelost, sommige moeten gewoon niet binnenkomen.",
+  harmonie: "Je merkt dat je deze herfst het vaakst koos om mensen weer bij elkaar te brengen, niet door gelijk te geven, maar door ruimte te maken om terug te komen.",
+  instinct: "Je merkt dat je deze herfst het vaakst hielp om iemands eigen gevoel weer te laten kloppen, niet door voor hen te beslissen, maar door te bewijzen dat ze zichzelf nog mochten geloven.",
+  aanwezigheid: "Je merkt dat je deze herfst, vaker dan wat dan ook, koos om er gewoon te zíjn: geen spreuk, geen ingrediënt, alleen tijd en aandacht. Misschien was dat altijd al de belangrijkste voorraad in de winkel."
+};
+
+function berekenSignature(s){
+  const telling = {};
+  s.tags.forEach(t => { if (t === 'onzeker') return; telling[t] = (telling[t]||0)+1; });
+  let beste = null, hoogste = 0;
+  Object.keys(telling).forEach(k => { if (telling[k] > hoogste){ hoogste = telling[k]; beste = k; } });
+  if (!beste) beste = 'aanwezigheid';
+  return SIGNATURES[beste];
+}
+
+// Avondgloren · Dagovergangen
+// Draait na het laden van alle scenes, voor de engine start.
+
+// Link de dag-overgangen aan elkaar via de "ending" knoppen die al een next hebben,
+// maar de laatste keuze van elke dag heeft geen vervolg-knop nodig: de restart-knop
+// verschijnt bij ending nodes. In plaats daarvan koppelen we hier de dagovergangen.
+const DAG_VOLGORDE = ["dag2_intro", "dag3_intro", "dag4_intro", "dag5_intro", "finale_intro"];
+["fen_eind_inkt","fen_eind_dauw","fen_eind_gok","fen_eind_praten"].forEach(k => STORY[k].next = "dag2_intro");
+["jackie_eind_klaver","jackie_eind_vuurvlieg","jackie_eind_gok","jackie_eind_praten"].forEach(k => STORY[k].next = "dag3_intro");
+["le_eind_spinrag","le_eind_praten"].forEach(k => STORY[k].next = "dag4_intro");
+["mick_eind_trilling","mick_eind_vuurvlieg","mick_eind_gok","mick_eind_praten"].forEach(k => STORY[k].next = "dag5_intro");
+["barry_eind_distel","barry_eind_inkt","barry_eind_gok","barry_eind_praten"].forEach(k => STORY[k].next = "finale_intro");
+
+// Ending nodes krijgen alsnog een "verder"-knop in plaats van meteen herstart,
+// behalve de allerlaatste (finale_eind).
+Object.keys(STORY).forEach(key => {
+  const node = STORY[key];
+  if (node.ending && node.next){
+    node.choices = [{ text: "Ga verder", next: node.next, leaf:"→" }];
+    delete node.ending;
+  }
+});
+
+// Avondgloren · Engine (rendering, zijbalk, herstart)
+// Wordt als laatste ingeladen en start het spel onderaan met render("intro_1").
+
+let current = "start";
+
+function glowText(w){
+  if (w >= 90) return "De hele winkel voelt alsof hij hier altijd al heeft gestaan.";
+  if (w >= 55) return "Het begint hier steeds meer op een thuis te lijken.";
+  if (w >= 35) return "Er nestelt zich iets goeds in de winkel.";
+  if (w >= 20) return "De winkel wordt net wakker.";
+  return "Nog koud in de hoekjes.";
+}
+
+function renderLijst(id, emptyId, items, cls){
+  const list = document.getElementById(id);
+  const empty = document.getElementById(emptyId);
+  list.innerHTML = "";
+  if (items.length === 0){ empty.style.display = "block"; return; }
+  empty.style.display = "none";
+  items.forEach(entry => {
+    const li = document.createElement('li');
+    li.className = cls;
+    li.innerHTML = entry;
+    list.appendChild(li);
+  });
+}
+
+function renderSidebar(){
+  const pct = Math.max(0, Math.min(100, state.gloed));
+  document.getElementById('glowFill').style.width = pct + "%";
+  document.getElementById('glowLabel').textContent = glowText(state.gloed);
+  renderLijst('journalList', 'journalEmpty', state.spreuken, 'spell');
+  renderLijst('notebookList', 'notebookEmpty', state.dagboek, 'note');
+}
+
+function render(id){
+  current = id;
+  const node = STORY[id];
+  if (node.onEnter) node.onEnter(state);
+
+  document.getElementById('sceneLabel').textContent = node.label;
+  document.getElementById('dayTag').textContent = node.day || "";
+
+  let teksten = node.text.slice();
+  if (node.endingSignature){
+    const line = berekenSignature(state);
+    teksten = teksten.map(t => t === "SIGNATURE_LINE" ? line : t);
+  }
+
+  const textEl = document.getElementById('storyText');
+  textEl.innerHTML = teksten.map(p => `<p>${p}</p>`).join("");
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = "";
+  const restartRow = document.getElementById('restartRow');
+
+  const choiceList = node.dynamicChoices ? node.dynamicChoices(state) : (node.choices || []);
+
+  if (node.ending || choiceList.length === 0){
+    choicesEl.style.display = "none";
+    restartRow.style.display = "block";
+  } else {
+    choicesEl.style.display = "flex";
+    restartRow.style.display = "none";
+    choiceList.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.className = "choice-btn";
+      btn.innerHTML = `<span class="leaf">${choice.leaf || "&bull;"}</span>${choice.text}`;
+      btn.onclick = () => render(choice.next);
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  renderSidebar();
+}
+
+function restart(){
+  state.gloed = 20;
+  state.spreuken = [];
+  state.dagboek = [];
+  state.tags = [];
+  state.flags = {};
+  render("start");
+}
+
+render("intro_1");
+</script>
+</body>
+</html>

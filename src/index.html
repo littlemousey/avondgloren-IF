@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avondgloren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+{{STYLE}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark">
+      <svg viewBox="0 0 40 40">
+        <path class="spark s1" d="M20 6 L20 14 M20 26 L20 34 M6 20 L14 20 M26 20 L34 20" />
+        <path class="spark s2" d="M11 11 L15 15 M25 25 L29 29 M11 29 L15 25 M25 15 L29 11" />
+        <circle cx="20" cy="20" r="5" fill="none" stroke="#d97a3d" stroke-width="2"/>
+      </svg>
+    </div>
+    <h1>Avondgloren</h1>
+    <div class="subtitle">een kleine magische winkel tussen de wortels van een oude eik</div>
+    <div class="daytag" id="dayTag"></div>
+  </header>
+
+  <div class="layout">
+    <div class="page">
+      <p class="scene-label" id="sceneLabel">Voor openingstijd</p>
+      <div class="story-text" id="storyText"></div>
+      <div class="choices" id="choices"></div>
+      <div class="restart-row" id="restartRow" style="display:none;">
+        <button class="restart-btn" onclick="restart()">begin een nieuw seizoen ↺</button>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="side-card">
+        <p class="side-title">Gloed</p>
+        <div class="glow-track"><div class="glow-fill" id="glowFill"></div></div>
+        <p class="glow-label" id="glowLabel">De winkel wordt net wakker.</p>
+      </div>
+      <div class="side-card">
+        <p class="side-title">Spreukenboek</p>
+        <ul class="journal-list" id="journalList"></ul>
+        <p class="journal-empty" id="journalEmpty">Nog geen spreuk uitgesproken.</p>
+      </div>
+      <div class="side-card">
+        <p class="side-title">Oma's dagboek</p>
+        <ul class="journal-list" id="notebookList"></ul>
+        <p class="journal-empty" id="notebookEmpty">Nog niets gevonden.</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+<script>
+{{SCRIPT}}
+</script>
+</body>
+</html>
