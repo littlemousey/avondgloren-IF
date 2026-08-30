@@ -190,11 +190,11 @@ Object.assign(STORY, {
     day: "Vroege herfst",
     label: "Voor openingstijd",
     text: [
-      "Buiten hangt een lichte nevel over Amberwoud, en de wind jaagt goudbruine blaadjes tegen de ruiten. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed (oma's hoed, eigenlijk, nooit helemaal de jouwe geworden) en zet hem recht. Hij zakt toch weer scheef. Even denk je aan haar, zoals elke ochtend, en dan kijk je de winkel rond, en naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
+      "Buiten hangt een lichte nevel over Amberwoud, en de wind waait goudbruine blaadjes tegen de luiken. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed (oma's hoed, eigenlijk, nooit helemaal de jouwe geworden) en zet hem recht. Hij zakt toch weer scheef. Even denk je aan haar, zoals elke ochtend, en dan kijk je de winkel rond, en naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
       "Je hebt een paar minuten voor de eerste klant voor de deur staat. Wat doe je eerst?"
     ],
     choices: [
-      { text: "Sus de avondlantaarn tot een goede gloed", next: "hearth", leaf:"✦" },
+      { text: "Moedig de avondlantaarn aan tot een warme gloed", next: "hearth", leaf:"✦" },
       { text: "Stal de nieuwe voorraad distelpluis en eikengal-inkt uit", next: "herbs", leaf:"❦" },
       { text: "Doe gewoon open: er wordt al ongeduldig op de stoep gewacht", next: "deur_vroeg", leaf:"🚪" }
     ]
@@ -214,7 +214,7 @@ Object.assign(STORY, {
     label: "De voorraadplank",
     text: [
       "Je werkt de krat door: distelpluis, zilverig en licht als adem, goed om dingen buiten te houden die er niet horen te zijn: nachtmerries, tocht, pech. Ernaast eikengal-inkt, donker en traag drogend, gebruikt om een herinnering vast te leggen zodat die niet kan wegglippen.",
-      "Je zet de potten op een rijtje voor het raam en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden."
+      "Je zet de potten op een rijtje in het licht van het open luik en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden."
     ],
     onEnter: (s) => { s.flags.kentIngredienten = true; s.gloed += 5; },
     choices: [ { text: "Loop naar de deur en draai het bordje om", next: "opening", leaf:"→" } ]
@@ -223,7 +223,7 @@ Object.assign(STORY, {
   deur_vroeg: {
     label: "Een vroege klop",
     text: [
-      "De lantaarn is amper aan en je hebt nog niets uitgestald, maar buiten staat iemand ongeduldig te ijsberen, en het voelt onaardig om diegene op formaliteiten te laten wachten.",
+      "De lantaarn gloeit nog amper en je hebt nog niets uitgestald, maar buiten staat iemand ongeduldig te ijsberen, en het voelt onaardig om diegene op formaliteiten te laten wachten.",
       "Je doet open nog voordat het bordje is omgedraaid."
     ],
     onEnter: (s) => { s.gloed += 2; },
@@ -837,7 +837,7 @@ Object.assign(STORY, {
     label: "Het Feest van de Eerste Vorst",
     text: [
       "De eerste vorst van het seizoen ligt als suiker over Amberwoud. Dennenappels en verkleurde bladeren knerpen onder elke poot die de winkel nadert. Voor Avondgloren zijn lantaarns opgehangen tussen de takken, niet van jou maar van de buren, die besloten hebben dat de winkel dit ook wel verdient. Je veegt het stof van de hoed, uit gewoonte, en zet hem recht. Voor het eerst sinds je de winkel overnam, blijft hij ook echt recht zitten.",
-      "Fen zit al op de vensterbank, veel te dicht bij de warme ruit. Jackie helpt Louise en Levi een tafel vol eikels uitstallen zonder dat iemand ruzie maakt over wie er meer heeft neergezet. Mick graaft, zonder aarzelen, een klein pad door de sneeuw naar de deur. En daar, in de deuropening, staat Barry, stekels ontspannen, die een kom warme bessen naar binnen brengt.",
+      "Fen zit al op het bankje onder de toonbank, veel te dicht bij de warme lantaarn. Jackie helpt Louise en Levi een tafel vol eikels uitstallen zonder dat iemand ruzie maakt over wie er meer heeft neergezet. Mick graaft, zonder aarzelen, een klein pad door de sneeuw naar de deur. En daar, in de deuropening, staat Barry, stekels ontspannen, die een kom warme bessen naar binnen brengt.",
       "Tussen de opgeruimde potten vindt je een laatste blaadje van oma, alsof het al die tijd op dit moment had liggen wachten."
     ],
     onEnter: (s) => { unlockNote(s, 'n3', "'Als de winkel ooit een echte specialiteit heeft gehad, was het dit: opletten wat iemand nodig heeft, niet wat er in de kast staat.'"); },
