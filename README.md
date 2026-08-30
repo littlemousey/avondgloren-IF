@@ -3,9 +3,11 @@
 Een Nederlandstalig interactive fiction spel: choice-based, geen parser.
 
 Je erft de winkel van je oma, tussen de wortels van een oude eik in Amberwoud.
-Vijf herfstdagen lang komen er bezoekers langs met iets kleins dat niet klopt.
+Vijf herfstdagen lang komen er bezoekers langs met hun problemen.
 Je zet thee, luistert, en kiest of je een spreuk brouwt of gewoon aanwezig
-bent. Wat je het vaakst kiest, bepaalt de slotzin.
+bent. Je acties hebben invloed op het einde van het verhaal.
+
+<img width="908" height="906" alt="image" src="https://github.com/user-attachments/assets/2d61d085-d6b3-4df5-911d-31bdef375082" />
 
 ## Spelen
 
