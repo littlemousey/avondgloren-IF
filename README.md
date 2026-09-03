@@ -11,17 +11,17 @@ bent. Je acties hebben invloed op het einde van het verhaal.
 
 ## Spelen
 
-Open `avondgloren.html` in een browser. Meer is het niet: geen server, geen
+Open `index.html` in een browser. Meer is het niet: geen server, geen
 installatie. Het bestand is volledig self-contained, op een Google
 Fonts-link na.
 
 ## Ontwikkelen
 
-`avondgloren.html` is **gegenereerd. Bewerk het niet met de hand**, want je
+`index.html` is **gegenereerd. Bewerk het niet met de hand**, want je
 wijzigingen zijn weg bij de eerstvolgende build. De bron staat in `src/`.
 
 ```sh
-node build.js           # bouwt avondgloren.html
+node build.js           # bouwt index.html
 node build.js --watch    # herbouwt bij elke wijziging in src/
 ```
 
@@ -120,11 +120,21 @@ hebt.
 
 ## Deployen
 
-Bouwen, dan alleen `avondgloren.html` uploaden. Statische host, verder niets:
+De build schrijft één bestand in de root: `index.html`, want dat is wat een
+statische host op de bare URL serveert. Het staat daarom bewust wél in git,
+ook al is het gegenereerd: het is het artefact dat je deployt.
 
-- Snelst: sleep het bestand naar [Netlify Drop](https://app.netlify.com/drop)
-- Duurzamer: repo op GitHub, Pages aanzetten, of koppelen aan Vercel/Netlify
-  voor automatische deploys bij elke push
+Het spel staat op GitHub Pages (branch `main`, folder `/ (root)`):
+<https://littlemousey.github.io/avondgloren-IF/>
 
-`avondgloren.html` staat daarom bewust wél in git, ook al is het gegenereerd:
-het is het artefact dat je deployt.
+Deployen is dus gewoon: bouwen, committen, pushen.
+
+```
+node build.js
+git add index.html
+git commit -m "build"
+git push
+```
+
+Voor een losse test zonder repo: sleep `index.html` naar
+[Netlify Drop](https://app.netlify.com/drop).

@@ -1,7 +1,7 @@
 # Avondgloren
 
 Een Nederlandstalig interactive fiction spel (choice-based, geen parser).
-Het eindproduct is één self-contained HTML-bestand (`avondgloren.html`) met
+Het eindproduct is één self-contained HTML-bestand (`index.html`) met
 inline CSS + JavaScript en geen dependencies buiten een Google Fonts CDN-link.
 
 Dat bestand is **gegenereerd, bewerk het niet direct.** De bron staat in `src/`
@@ -194,7 +194,7 @@ in de gaten dat het geheel uplifting blijft, niet drukkend.
 
 ## Testen
 
-Draai `node build.js` en open `avondgloren.html` direct in een browser. Geen
+Draai `node build.js` en open `index.html` direct in een browser. Geen
 server nodig: de output is een volledig self-contained statisch bestand.
 
 Tijdens het schrijven is `node build.js --watch` handiger: die herbouwt bij
@@ -202,8 +202,13 @@ elke wijziging in `src/`, dus dan volstaat een refresh in de browser.
 
 ## Deployen
 
-Bouw eerst (`node build.js`), deploy daarna alleen `avondgloren.html`.
-Statische host, verder niets nodig:
-- Snelst: sleep het bestand naar Netlify Drop (app.netlify.com/drop)
-- Duurzamer: repo op GitHub, Pages aanzetten, of koppelen aan Vercel/Netlify
-  voor automatische deploys bij elke push
+`node build.js` schrijft één bestand in de root: `index.html`, want dat is
+wat een statische host op de bare URL serveert. Het hoort in git; het is het
+artefact dat je deployt.
+
+GitHub Pages staat aan op branch `main`, folder `/ (root)`. Deployen is dus:
+bouwen, `index.html` committen, pushen. Live op
+https://littlemousey.github.io/avondgloren-IF/
+
+Alternatief voor een losse test: sleep `index.html` naar Netlify Drop
+(app.netlify.com/drop).

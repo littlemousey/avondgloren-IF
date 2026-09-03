@@ -1,7 +1,7 @@
 {
   "name": "avondgloren",
   "private": true,
-  "description": "Nederlandstalige interactive fiction; bronbestanden in src/, build tot avondgloren.html",
+  "description": "Nederlandstalige interactive fiction; bronbestanden in src/, build tot index.html",
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch"

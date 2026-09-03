@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Avondgloren build: plakt src/ samen tot avondgloren.html en controleert op dode links.
+// Avondgloren build: plakt src/ samen tot index.html en controleert op dode links.
 // Gebruik: node build.js  (of: node build.js --watch)
 
 const fs = require('fs');
@@ -7,7 +7,9 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = __dirname;
-const OUT = path.join(ROOT, 'avondgloren.html');
+// index.html, want dat is wat een statische host (GitHub Pages) op de
+// bare URL serveert.
+const OUT = path.join(ROOT, 'index.html');
 
 // Volgorde van de script-bestanden. Nieuwe dag toevoegen?
 // Zet het bestand in src/story/ en voeg het hier op de juiste plek toe.
@@ -88,7 +90,7 @@ function build(){
     .replace('{{SCRIPT}}', () => script) + '\n';
 
   fs.writeFileSync(OUT, html);
-  console.log(`✓ avondgloren.html geschreven — ${keys.size} scenes, ${html.length} bytes`);
+  console.log(`✓ index.html geschreven — ${keys.size} scenes, ${html.length} bytes`);
   return true;
 }
 

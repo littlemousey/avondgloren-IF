@@ -10,5 +10,6 @@ Thumbs.db
 # Voor als er ooit toch een dependency bijkomt
 node_modules/
 
-# LET OP: avondgloren.html staat hier bewust NIET in.
-# Het is gegenereerd, maar ook het bestand dat je deployt, dus het hoort in git.
+# LET OP: index.html staat hier bewust NIET in.
+# Het is gegenereerd, maar ook het bestand dat je deployt (GitHub Pages
+# serveert index.html vanuit de root), dus het hoort in git.
