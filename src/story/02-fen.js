@@ -19,12 +19,12 @@ Object.assign(STORY, {
 
   fen_drank_thee: {
     label: "Kruidenthee",
-    text: [ "Fen neemt gehaast een slok, verbrandt meteen zijn tong, en drinkt onverstoorbaar door. \"Lekker,\" piept hij, ogen tranend van de hitte en misschien ook een beetje van de paniek." ],
+    text: [ "Fen neemt gehaast een slok, verbrandt meteen zijn tong en drinkt onverstoorbaar door. \"Lekker,\" piept hij, ogen tranend van de hitte en misschien ook een beetje van de paniek." ],
     choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
   },
   fen_drank_amandel: {
     label: "Amandelmelk met kaneel",
-    text: [ "Fen ruikt eraan, kijkt achterdochtig naar de kaneel, en drinkt het dan in één teug leeg. \"Zoet genoeg om iets te vergeten,\" merkt hij droogjes op, \"of juist te onthouden. We zien wel welke van de twee het wordt.\"" ],
+    text: [ "Fen ruikt eraan, kijkt achterdochtig naar de kaneel en drinkt het dan in één teug leeg. \"Zoet genoeg om iets te vergeten,\" merkt hij droogjes op, \"of juist te onthouden. We zien wel welke van de twee het wordt.\"" ],
     choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
   },
   fen_drank_soja: {
@@ -96,7 +96,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg om er slim gebruik van te maken, dus je pakt iets dat vaag naar dennennaald ruikt en geeft het hem mee, met een blik die meer hoop dan vertrouwen uitstraalt.",
-      "Fen ruikt eraan, niest, en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
+      "Fen ruikt eraan, niest en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
       "Hij vliegt in elk geval opgewekter weg dan hij binnenkwam, wat voor vandaag genoeg lijkt."
     ],
     onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok met dennengeur: niet feilloos, maar het hielp."); tag(s,'onzeker'); },

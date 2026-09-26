@@ -86,7 +86,7 @@ Object.assign(STORY, {
     label: "Vuurvliegstof",
     text: [
       "Je strooit een vingertopje vuurvliegstof in het mandje, waar het een zacht, warm schijnsel opgeeft, net genoeg om bij de donkere stukken bos gezelschap te houden. \"Als het licht wegvalt,\" zeg je, \"til je gewoon het deksel op.\"",
-      "Jackie test het meteen, klapt het mandje open en dicht, en giechelt bij het gloedje dat naar buiten piept. Voor het eerst sinds ze binnenkwam, ziet ze eruit als een konijn dat gewoon een leuk klusje gaat doen.",
+      "Jackie test het meteen door het mandje open en dicht te klappen. Ze giechelt bij het gloedje dat naar buiten piept. Voor het eerst sinds ze binnenkwam, ziet ze eruit als een konijn dat gewoon een leuk klusje gaat doen.",
       "Ze huppelt de deur uit, mandje half open, alsof ze niet kan wachten om het licht te laten zien aan het donkerste stuk bos dat ze kan vinden."
     ],
     onEnter: (s) => { s.gloed += 20; s.spreuken.push("Vuurvliegstof in het mandje: gezelschap voor de donkere stukken."); tag(s,'moed'); },

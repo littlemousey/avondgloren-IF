@@ -95,7 +95,7 @@ Object.assign(STORY, {
   barry_eind_inkt: {
     label: "Eikengal-inkt",
     text: [
-      "Je vraagt Barry om één echt veilige herinnering (iets kleins is prima) en na even nadenken kiest hij zijn moeder die 's avonds zijn stekels telt voor het slapengaan. Je schrijft het met eikengal-inkt op een reepje berkenbast, vouwt het dubbel, en stopt het in zijn mandje.",
+      "Je vraagt Barry om één echt veilige herinnering (iets kleins is prima) en na even nadenken kiest hij zijn moeder die 's avonds zijn stekels telt voor het slapengaan. Je schrijft het met eikengal-inkt op een reepje berkenbast, vouwt het dubbel en stopt het in zijn mandje.",
       "\"Lees het voor je gaat slapen,\" zeg je. \"Het wist de droom niet. Het geeft je gedachten alleen een andere plek om eerst te landen.\"",
       "Barry knikt langzaam, alsof dit meer voor hem klopt dan een bescherming zou hebben gedaan. Hij vertrekt met het mandje net iets minder krampachtig vastgehouden."
     ],

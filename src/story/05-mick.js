@@ -8,7 +8,7 @@ Object.assign(STORY, {
     label: "Een voorzichtige klop",
     text: [
       "Je veegt het stof van de hoed en zet hem recht, en denkt aan hoe oma altijd zei dat een goede tovenaar zijn hoed nooit hoeft te controleren om te weten of hij goed zit. Jij controleert hem toch, elke ochtend opnieuw. Buiten regent het pijpenstelen, en overal tussen de boomwortels glinsteren al plassen.",
-      "De klop op de deur is zo zacht dat je hem bijna mist, half weggedrukt door het geluid van de regen die buiten tegen de luiken slaat. Op de stoep staat Mick, de mol van de akkerrand, doorweekt, met aarde tot aan zijn schouders en ogen die angstvallig elk oogcontact ontwijken.",
+      "De klop op de deur is zo zacht dat je hem bijna mist, half weggedrukt door het geluid van de regen die buiten tegen de luiken slaat. Op de drempel staat Mick, de mol van de akkerrand, doorweekt, met aarde tot aan zijn schouders en ogen die angstvallig elk oogcontact ontwijken.",
       "\"Ik groef een nieuwe gang naar de composthoop,\" begint hij, langzaam, alsof elk woord eerst gecontroleerd moet worden. \"Ik schatte de afstand verkeerd in. Brak dwars door de wortelkelder van de familie Grijs. Water liep naar binnen. Een deel van hun wintervoorraad is bedorven.\" Hij zwijgt. \"Sindsdien... vertrouw ik mijn eigen gangen niet meer.\""
     ],
     choices: [

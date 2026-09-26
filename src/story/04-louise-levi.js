@@ -79,7 +79,7 @@ Object.assign(STORY, {
     text: [
       "Je vlecht een dunne spinragdraad tot twee armbandjes, één voor elk, verbonden door een enkele draad die knapt zodra een van beiden te ver bij de ander vandaan blijft, niet als straf maar als herinnering om terug te komen.",
       "\"Het is geen eerlijkheidsspreuk,\" leg je uit. \"Ik kan niet toveren dat jullie evenveel hebben gedaan. Het is een 'kom terug en praat'-spreuk.\"",
-      "Louise en Levi bekijken hun bandjes, dan elkaar, en lopen samen de deur uit, nog steeds pratend, alleen zachter nu, om beurten in plaats van tegelijk."
+      "Louise en Levi bekijken hun bandjes, dan elkaar en lopen samen de deur uit, nog steeds pratend, alleen zachter nu, om beurten in plaats van tegelijk."
     ],
     onEnter: (s) => { s.gloed += 20; s.spreuken.push("Spinragdraad-band: een herinnering om terug te komen en te praten."); tag(s,'harmonie'); },
     ending: true

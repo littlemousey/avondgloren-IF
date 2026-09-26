@@ -163,9 +163,9 @@ Object.assign(STORY, {
   intro_1: {
     label: "Avondgloren",
     text: [
-      "Toen je oma vorige lente overleed, liet ze je niet alleen haar winkel na. Ze liet je ook een eigenzinnige lantaarn na, een voorraadplank waarvan zij als enige wist wat er precies in de potten zat, en klanten die hier al generaties over de vloer komen.",
-      "Avondgloren is namelijk geen gewone winkel. Bezoekers uit heel Amberwoud komen er niet voor brood of naalden, maar voor iets wat je niet zomaar vraagt: een beetje moed voor een spannend moment, een spreuk tegen een nare droom, of soms gewoon iemand om tegen aan te praten.",
-      "Jij bent de nieuwe eigenaar. Oma's aantekeningen zitten nog overal tussen de potten verstopt (je hebt er tot nu toe maar een paar gevonden), en haar tovenaarshoed zakt tot over je muizenoren zodra je hem opzet. Een maatje te groot, maar je zet hem toch op. Op de een of andere manier voel je je er zekerder door."
+      "Toen je oma vorige lente overleed, liet ze je haar winkel na, en daarmee ook een eigenzinnige lantaarn en een voorraadplank waarvan alleen zij precies wist wat er in de potten zat. En dan zijn er nog de vaste klanten, die hier al generaties over de vloer komen.",
+      "Avondgloren is namelijk geen gewone winkel. Bezoekers uit heel Amberwoud komen er niet voor brood of naalden, maar voor iets wat je niet zomaar vraagt: een beetje moed voor een spannend moment, een spreuk tegen een nare droom of soms gewoon iemand om tegen aan te praten.",
+      "Jij bent de nieuwe eigenaar. Oma's aantekeningen zitten nog overal tussen de potten verstopt (je hebt er tot nu toe maar een paar gevonden) en haar tovenaarshoed zakt tot over je muizenoren zodra je hem opzet. Net een maatje te groot, maar je zet hem toch op. Op de een of andere manier voel je je er zekerder door."
     ],
     choices: [ { text: "Ontgrendel de voordeur", next: "intro_2", leaf:"→" } ]
   },
@@ -190,20 +190,20 @@ Object.assign(STORY, {
     day: "Vroege herfst",
     label: "Voor openingstijd",
     text: [
-      "Buiten hangt een lichte nevel over Amberwoud, en de wind waait goudbruine blaadjes tegen de luiken. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed (oma's hoed, eigenlijk, nooit helemaal de jouwe geworden) en zet hem recht. Hij zakt toch weer scheef. Even denk je aan haar, zoals elke ochtend, en dan kijk je de winkel rond, en naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
+      "Buiten hangt een lichte nevel over Amberwoud, en de wind waait goudbruine blaadjes tegen de luiken. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed en zet hem recht. Hij zakt toch weer scheef. Even denk je aan oma, zoals elke ochtend, en dan kijk je de winkel rond, naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
       "Je hebt een paar minuten voor de eerste klant voor de deur staat. Wat doe je eerst?"
     ],
     choices: [
-      { text: "Moedig de avondlantaarn aan tot een warme gloed", next: "hearth", leaf:"✦" },
+      { text: "Blaas de avondlantaarn zachtjes wakker", next: "hearth", leaf:"✦" },
       { text: "Stal de nieuwe voorraad distelpluis en eikengal-inkt uit", next: "herbs", leaf:"❦" },
-      { text: "Doe gewoon open: er wordt al ongeduldig op de stoep gewacht", next: "deur_vroeg", leaf:"🚪" }
+      { text: "Doe gewoon open: er staat al iemand ongeduldig voor de deur", next: "deur_vroeg", leaf:"🚪" }
     ]
   },
 
   hearth: {
     label: "De avondlantaarn",
     text: [
-      "Je vouwt je pootjes om de lantaarn boven de toonbank en blaast er zachtjes tegenaan, niet om de vlam aan te wakkeren, maar om te laten weten dat je er bent, zoals je oma het altijd deed. De lantaarn sputtert, doet quasi-beledigd, en zakt dan in een warme, gelijkmatige gloed.",
+      "Je vouwt je pootjes om de lantaarn boven de toonbank en blaast er zachtjes tegenaan, niet om de vlam aan te wakkeren, maar om te laten weten dat je er bent, zoals je oma het altijd deed. De lantaarn sputtert, doet quasi-beledigd en zakt dan in een warme, gelijkmatige gloed.",
       "\"Zo,\" zeg je. Hij tikt eenmaal, tevreden met zichzelf."
     ],
     onEnter: (s) => { s.flags.lanternKalm = true; s.gloed += 5; },
@@ -262,12 +262,12 @@ Object.assign(STORY, {
 
   fen_drank_thee: {
     label: "Kruidenthee",
-    text: [ "Fen neemt gehaast een slok, verbrandt meteen zijn tong, en drinkt onverstoorbaar door. \"Lekker,\" piept hij, ogen tranend van de hitte en misschien ook een beetje van de paniek." ],
+    text: [ "Fen neemt gehaast een slok, verbrandt meteen zijn tong en drinkt onverstoorbaar door. \"Lekker,\" piept hij, ogen tranend van de hitte en misschien ook een beetje van de paniek." ],
     choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
   },
   fen_drank_amandel: {
     label: "Amandelmelk met kaneel",
-    text: [ "Fen ruikt eraan, kijkt achterdochtig naar de kaneel, en drinkt het dan in één teug leeg. \"Zoet genoeg om iets te vergeten,\" merkt hij droogjes op, \"of juist te onthouden. We zien wel welke van de twee het wordt.\"" ],
+    text: [ "Fen ruikt eraan, kijkt achterdochtig naar de kaneel en drinkt het dan in één teug leeg. \"Zoet genoeg om iets te vergeten,\" merkt hij droogjes op, \"of juist te onthouden. We zien wel welke van de twee het wordt.\"" ],
     choices: [ { text: "Ga verder", next: "fen_na_drank", leaf:"→" } ]
   },
   fen_drank_soja: {
@@ -339,7 +339,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg om er slim gebruik van te maken, dus je pakt iets dat vaag naar dennennaald ruikt en geeft het hem mee, met een blik die meer hoop dan vertrouwen uitstraalt.",
-      "Fen ruikt eraan, niest, en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
+      "Fen ruikt eraan, niest en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
       "Hij vliegt in elk geval opgewekter weg dan hij binnenkwam, wat voor vandaag genoeg lijkt."
     ],
     onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok met dennengeur: niet feilloos, maar het hielp."); tag(s,'onzeker'); },
@@ -447,7 +447,7 @@ Object.assign(STORY, {
     label: "Vuurvliegstof",
     text: [
       "Je strooit een vingertopje vuurvliegstof in het mandje, waar het een zacht, warm schijnsel opgeeft, net genoeg om bij de donkere stukken bos gezelschap te houden. \"Als het licht wegvalt,\" zeg je, \"til je gewoon het deksel op.\"",
-      "Jackie test het meteen, klapt het mandje open en dicht, en giechelt bij het gloedje dat naar buiten piept. Voor het eerst sinds ze binnenkwam, ziet ze eruit als een konijn dat gewoon een leuk klusje gaat doen.",
+      "Jackie test het meteen door het mandje open en dicht te klappen. Ze giechelt bij het gloedje dat naar buiten piept. Voor het eerst sinds ze binnenkwam, ziet ze eruit als een konijn dat gewoon een leuk klusje gaat doen.",
       "Ze huppelt de deur uit, mandje half open, alsof ze niet kan wachten om het licht te laten zien aan het donkerste stuk bos dat ze kan vinden."
     ],
     onEnter: (s) => { s.gloed += 20; s.spreuken.push("Vuurvliegstof in het mandje: gezelschap voor de donkere stukken."); tag(s,'moed'); },
@@ -559,7 +559,7 @@ Object.assign(STORY, {
     text: [
       "Je vlecht een dunne spinragdraad tot twee armbandjes, één voor elk, verbonden door een enkele draad die knapt zodra een van beiden te ver bij de ander vandaan blijft, niet als straf maar als herinnering om terug te komen.",
       "\"Het is geen eerlijkheidsspreuk,\" leg je uit. \"Ik kan niet toveren dat jullie evenveel hebben gedaan. Het is een 'kom terug en praat'-spreuk.\"",
-      "Louise en Levi bekijken hun bandjes, dan elkaar, en lopen samen de deur uit, nog steeds pratend, alleen zachter nu, om beurten in plaats van tegelijk."
+      "Louise en Levi bekijken hun bandjes, dan elkaar en lopen samen de deur uit, nog steeds pratend, alleen zachter nu, om beurten in plaats van tegelijk."
     ],
     onEnter: (s) => { s.gloed += 20; s.spreuken.push("Spinragdraad-band: een herinnering om terug te komen en te praten."); tag(s,'harmonie'); },
     ending: true
@@ -588,7 +588,7 @@ Object.assign(STORY, {
     label: "Een voorzichtige klop",
     text: [
       "Je veegt het stof van de hoed en zet hem recht, en denkt aan hoe oma altijd zei dat een goede tovenaar zijn hoed nooit hoeft te controleren om te weten of hij goed zit. Jij controleert hem toch, elke ochtend opnieuw. Buiten regent het pijpenstelen, en overal tussen de boomwortels glinsteren al plassen.",
-      "De klop op de deur is zo zacht dat je hem bijna mist, half weggedrukt door het geluid van de regen die buiten tegen de luiken slaat. Op de stoep staat Mick, de mol van de akkerrand, doorweekt, met aarde tot aan zijn schouders en ogen die angstvallig elk oogcontact ontwijken.",
+      "De klop op de deur is zo zacht dat je hem bijna mist, half weggedrukt door het geluid van de regen die buiten tegen de luiken slaat. Op de drempel staat Mick, de mol van de akkerrand, doorweekt, met aarde tot aan zijn schouders en ogen die angstvallig elk oogcontact ontwijken.",
       "\"Ik groef een nieuwe gang naar de composthoop,\" begint hij, langzaam, alsof elk woord eerst gecontroleerd moet worden. \"Ik schatte de afstand verkeerd in. Brak dwars door de wortelkelder van de familie Grijs. Water liep naar binnen. Een deel van hun wintervoorraad is bedorven.\" Hij zwijgt. \"Sindsdien... vertrouw ik mijn eigen gangen niet meer.\""
     ],
     choices: [
@@ -795,7 +795,7 @@ Object.assign(STORY, {
   barry_eind_inkt: {
     label: "Eikengal-inkt",
     text: [
-      "Je vraagt Barry om één echt veilige herinnering (iets kleins is prima) en na even nadenken kiest hij zijn moeder die 's avonds zijn stekels telt voor het slapengaan. Je schrijft het met eikengal-inkt op een reepje berkenbast, vouwt het dubbel, en stopt het in zijn mandje.",
+      "Je vraagt Barry om één echt veilige herinnering (iets kleins is prima) en na even nadenken kiest hij zijn moeder die 's avonds zijn stekels telt voor het slapengaan. Je schrijft het met eikengal-inkt op een reepje berkenbast, vouwt het dubbel en stopt het in zijn mandje.",
       "\"Lees het voor je gaat slapen,\" zeg je. \"Het wist de droom niet. Het geeft je gedachten alleen een andere plek om eerst te landen.\"",
       "Barry knikt langzaam, alsof dit meer voor hem klopt dan een bescherming zou hebben gedaan. Hij vertrekt met het mandje net iets minder krampachtig vastgehouden."
     ],

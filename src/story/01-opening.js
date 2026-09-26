@@ -7,20 +7,20 @@ Object.assign(STORY, {
     day: "Vroege herfst",
     label: "Voor openingstijd",
     text: [
-      "Buiten hangt een lichte nevel over Amberwoud, en de wind waait goudbruine blaadjes tegen de luiken. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed (oma's hoed, eigenlijk, nooit helemaal de jouwe geworden) en zet hem recht. Hij zakt toch weer scheef. Even denk je aan haar, zoals elke ochtend, en dan kijk je de winkel rond, en naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
+      "Buiten hangt een lichte nevel over Amberwoud, en de wind waait goudbruine blaadjes tegen de luiken. Binnen is het stil, op het zachte getik van de avondlantaarn na. Die hangt aan een ketting boven de toonbank, precies zoals hij daar al hing toen je oma de winkel nog runde. Hij dooft nooit helemaal, maar gloeit sinds gisteravond dof en laag, alsof hij wacht tot iemand hem aanspoort tot iets warmers. Je veegt het stof van de hoed en zet hem recht. Hij zakt toch weer scheef. Even denk je aan oma, zoals elke ochtend, en dan kijk je de winkel rond, naar de bladeren die zich al tegen de drempel hebben opgehoopt.",
       "Je hebt een paar minuten voor de eerste klant voor de deur staat. Wat doe je eerst?"
     ],
     choices: [
-      { text: "Moedig de avondlantaarn aan tot een warme gloed", next: "hearth", leaf:"✦" },
+      { text: "Blaas de avondlantaarn zachtjes wakker", next: "hearth", leaf:"✦" },
       { text: "Stal de nieuwe voorraad distelpluis en eikengal-inkt uit", next: "herbs", leaf:"❦" },
-      { text: "Doe gewoon open: er wordt al ongeduldig op de stoep gewacht", next: "deur_vroeg", leaf:"🚪" }
+      { text: "Doe gewoon open: er staat al iemand ongeduldig voor de deur", next: "deur_vroeg", leaf:"🚪" }
     ]
   },
 
   hearth: {
     label: "De avondlantaarn",
     text: [
-      "Je vouwt je pootjes om de lantaarn boven de toonbank en blaast er zachtjes tegenaan, niet om de vlam aan te wakkeren, maar om te laten weten dat je er bent, zoals je oma het altijd deed. De lantaarn sputtert, doet quasi-beledigd, en zakt dan in een warme, gelijkmatige gloed.",
+      "Je vouwt je pootjes om de lantaarn boven de toonbank en blaast er zachtjes tegenaan, niet om de vlam aan te wakkeren, maar om te laten weten dat je er bent, zoals je oma het altijd deed. De lantaarn sputtert, doet quasi-beledigd en zakt dan in een warme, gelijkmatige gloed.",
       "\"Zo,\" zeg je. Hij tikt eenmaal, tevreden met zichzelf."
     ],
     onEnter: (s) => { s.flags.lanternKalm = true; s.gloed += 5; },
