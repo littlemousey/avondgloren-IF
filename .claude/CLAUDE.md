@@ -91,7 +91,15 @@ koppelingen tenzij daar expliciet om gevraagd wordt.
 - Gebruik geen Engelse em-dash (`&mdash;` of `—`) in nieuwe of aangepaste
   tekst. Gebruik in plaats daarvan een dubbele punt (toelichting), komma
   (doorlopende zin), haakjes (echte zijopmerking), of beëindigingstekens
-  (onderbroken dialoog) — kies wat het beste bij de zin past.
+  (onderbroken dialoog) — kies wat het beste bij de zin past. Kom je bij
+  het bewerken een bestaande em-dash tegen, vervang die dan ook.
+- Geen Oxford-komma: in een opsomming van drie of meer staat vóór het
+  laatste "en"/"of" geen komma ("ruikt eraan, niest en zegt dan", niet
+  "ruikt eraan, niest, en zegt dan"). Let hier bij elke tekstwijziging op.
+  Een komma vóór "en" mag wél tussen twee hoofdzinnen met elk een eigen
+  onderwerp ("Het regent, en haar vacht plakt nat"), of na een bijzin of
+  tussenvoegsel. Wordt een zin zonder die komma onduidelijk (bv. twee keer
+  "en" vlak achter elkaar), splits hem dan liever op in aparte zinnen.
 - Blijf bij informeel Nederlands (je/jij, geen u).
 - Keuzeknoppen (`choices`/`dynamicChoices` teksten) staan in de actieve
   gebiedende wijs: "Begin de dag", "Kijk wie het is", "Loop naar de plank",
