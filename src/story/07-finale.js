@@ -20,6 +20,7 @@ Object.assign(STORY, {
     text: [
       "Je vouwt het laatste blaadje open. Geen recept deze keer: gewoon een paar zinnen, in het handschrift dat je inmiddels beter kent dan je eigen gedachten.",
       "Je kijkt naar de winkel om je heen: naar Fen op de vensterbank, naar het rustige gepraat van Louise en Levi, naar Mick's voetstappen die vol vertrouwen door de sneeuw lopen, naar Barry die de kom bessen op tafel zet zonder één keer om te kijken naar de deur.",
+      "Ergens achter in je hoofd wacht je op oma's stem, op een 'och kind' over de kom bessen die scheef staat, of over de hoed. Er komt niets. Of nee, er komt wel iets, maar het is geen opmerking. Het is een tevreden zucht, het soort dat ze slaakte als ze aan het eind van de dag eindelijk ging zitten.",
       "SIGNATURE_LINE",
       "Buiten begint het licht te zachtjes te vallen zoals het bij de eerste vorst hoort. Binnen blijft de avondlantaarn gloeien, precies zoals hij dat al deed voor jij de winkel overnam, en precies zoals hij dat, vermoed je, nog heel lang zal blijven doen."
     ],

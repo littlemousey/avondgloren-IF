@@ -66,12 +66,43 @@ Object.assign(STORY, {
     label: "Twee kanten van dezelfde voorraad",
     text: [
       "Nu je allebei hebt gehoord, wordt duidelijk dat dit geen ruzie is over wie het beste werk levert, maar over wie zich het meest gezien voelt: Louise, die vroeg opstaat en bang is dat niemand het merkt; Levi, die zorgvuldig is en bang is dat niemand daar waarde aan hecht.",
-      "Ze zwijgen allebei, wat voor deze twee bijna een prestatie op zich is."
+      "Ze zwijgen allebei, wat voor deze twee bijna een prestatie op zich is.",
+      "Je zou willen dat oma hier stond. Zij had de twee met één opgetrokken wenkbrauw stilgekregen en daarna een oplossing uit haar mouw getoverd, alsof ze die daar speciaal voor vandaag had bewaard. Jij hebt alleen een half idee en de hoop dat de andere helft vanzelf komt."
     ],
     choices: [
-      { text: "Brouw een spinragdraad-band voor hen samen", next: "le_eind_spinrag", leaf:"❦" },
+      { text: "Vlecht een band van spinrag voor hen samen", next: "le_spinrag_1", leaf:"❦" },
       { text: "Geen spreuk: laat hen samen hardop tellen, om beurten", next: "le_eind_praten", leaf:"✦" }
     ]
+  },
+
+  le_spinrag_1: {
+    label: "De leverancier",
+    text: [
+      "Spinrag staat niet in een pot. Het hangt in de hoek boven de voorraadplank, waar een oude kruisspin het al jaren voor de winkel spint. Oma noemde haar 'de leverancier'. Een andere naam heb je haar nooit horen geven.",
+      "Je hebt er een draad van nodig. Louise en Levi kijken allebei toe, en voor het eerst vandaag zijn ze het ergens over eens: ze willen zien hoe dit afloopt."
+    ],
+    choices: [
+      { text: "Trek snel een draad los, voor de spin het doorheeft", next: "le_spinrag_oma", leaf:"❦" },
+      { text: "Vraag de spin eerst beleefd om een draad", next: "le_spinrag_2", leaf:"❦" }
+    ]
+  },
+
+  le_spinrag_oma: {
+    label: "Eerst vragen",
+    text: [
+      "Je poot is al halverwege als de spin één poot optilt. Eén maar. Het is genoeg.",
+      oma("Kind. Je trekt toch ook niet zomaar iemands trui uit? Eerst vragen. Altijd eerst vragen. En daarna bedanken, ook al zegt ze nooit iets terug."),
+      "Je trekt je poot terug, schraapt je keel en vraagt het zo beleefd als je kunt, met twee eekhoorns achter je die hun gegiechel nauwelijks binnen kunnen houden. Het is de eerste keer vandaag dat ze om hetzelfde lachen."
+    ],
+    choices: [ { text: "Wacht op de spin", next: "le_spinrag_2", leaf:"→" } ]
+  },
+
+  le_spinrag_2: {
+    label: "Een draad",
+    text: [
+      "Na een lange, keurende stilte laat de spin een draad zakken. Hij is zo dun dat je hem alleen ziet als het licht erop valt, en sterker dan hij eruitziet. Je bedankt haar. Ze reageert niet, wat bij spinnen waarschijnlijk 'graag gedaan' betekent."
+    ],
+    choices: [ { text: "Vlecht de draad tot twee armbandjes", next: "le_eind_spinrag", leaf:"❦" } ]
   },
 
   le_eind_spinrag: {

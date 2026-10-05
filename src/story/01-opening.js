@@ -31,7 +31,8 @@ Object.assign(STORY, {
     label: "De voorraadplank",
     text: [
       "Je werkt de krat door: distelpluis, zilverig en licht als adem, goed om dingen buiten te houden die er niet horen te zijn: nachtmerries, tocht, pech. Ernaast eikengal-inkt, donker en traag drogend, gebruikt om een herinnering vast te leggen zodat die niet kan wegglippen.",
-      "Je zet de potten op een rijtje in het licht van het open luik en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden."
+      "Je zet de potten op een rijtje in het licht van het open luik en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden.",
+      "Dan zet je de pot distelpluis neer en hoor je het meteen: " + oma("Met het deksel naar beneden, kind. Anders wil het eruit.") + " Je draait hem om. Zo bekwaam dus ook weer niet."
     ],
     onEnter: (s) => { s.flags.kentIngredienten = true; s.gloed += 5; },
     choices: [ { text: "Loop naar de deur en draai het bordje om", next: "opening", leaf:"→" } ]
@@ -41,7 +42,8 @@ Object.assign(STORY, {
     label: "Een vroege klop",
     text: [
       "De lantaarn gloeit nog amper en je hebt nog niets uitgestald, maar buiten staat iemand ongeduldig te ijsberen, en het voelt onaardig om diegene op formaliteiten te laten wachten.",
-      "Je doet open nog voordat het bordje is omgedraaid."
+      "Achter in je hoofd hoor je oma: " + oma("Een winkel die te vroeg opengaat, krijgt klanten die te vroeg komen.") + " Ze heeft vast gelijk.",
+      "Je doet toch open, nog voordat het bordje is omgedraaid."
     ],
     onEnter: (s) => { s.gloed += 2; },
     choices: [ { text: "Kijk wie het is", next: "dag1_intro", leaf:"→" } ]

@@ -56,19 +56,81 @@ Object.assign(STORY, {
   jackie_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Jackie volgt elke beweging van je poten alsof je zo een stukje van haar moed voor haar gaat inpakken, wat, eerlijk gezegd, ook precies is wat er gaat gebeuren."
+      "Je kijkt naar de potten. Jackie volgt elke beweging van je poten alsof je zo een stukje van haar moed voor haar gaat inpakken, wat, eerlijk gezegd, ook precies is wat er gaat gebeuren.",
+      "Bij oma leek het altijd alsof de potten vanzelf naar voren schoven zodra er iemand binnenkwam die ze nodig had. Bij jou blijven ze gewoon staan, eigenwijs, sommige nog steeds zonder etiket. Je zucht, zet je hoed recht en steekt toch maar je poot uit."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Geperst klaverblad: duw met een beetje geluk de kleine kansen jouw kant op", next: "jackie_eind_klaver", leaf:"❦" });
-        opts.push({ text: "Vuurvliegstof: geef een lichtgevend beetje moed voor de donkere stukken", next: "jackie_eind_vuurvlieg", leaf:"❦" });
+        opts.push({ text: "Geperst klaverblad: duw met een beetje geluk de kleine kansen jouw kant op", next: "jackie_klaver_1", leaf:"❦" });
+        opts.push({ text: "Vuurvliegstof: geef een lichtgevend beetje moed voor de donkere stukken", next: "jackie_vuurvlieg_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat er dapper genoeg uitziet, en hoop maar", next: "jackie_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: teken samen het pad op de vloer na tot ze het uit haar hoofd kent", next: "jackie_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  jackie_klaver_1: {
+    label: "Het juiste blaadje",
+    text: [
+      "Het geperste klaver ligt tussen twee vellen vloeipapier in een oud kookboek van oma. Er zitten tientallen klavertjes tussen: de meeste met drie blaadjes, een paar met vier en één met vijf, wat je eerlijk gezegd een beetje verdacht vindt.",
+      "Jackie buigt zich over het boek. \"Welke werkt het best?\" Dat is een uitstekende vraag. Je zou willen dat je het antwoord wist."
+    ],
+    choices: [
+      { text: "Kies een klavertje vier: daar draait het toch om bij geluk?", next: "jackie_klaver_oma", leaf:"❦" },
+      { text: "Kies dat ene klavertje vijf, dan zit je zeker goed", next: "jackie_klaver_oma", leaf:"❦" },
+      { text: "Kies een gewoon klavertje drie", next: "jackie_klaver_2", leaf:"❦" }
+    ]
+  },
+
+  jackie_klaver_oma: {
+    label: "Een stem achter in je hoofd",
+    text: [
+      "Je poot zweeft al boven het blaadje als er een stem door je hoofd gaat die je zo goed kent dat je bijna omkijkt.",
+      oma("Och kind. Een klavertje vier is voor wie geluk zoekt, en een klavertje vijf is voor wie niet kan kiezen. Dat konijntje heeft geen geluk nodig. Een gewoon klavertje drie, dat is voor wie alles al bij zich heeft en dat even vergeten is."),
+      "Je pakt het klavertje drie. Tussen je poten voelt het steviger dan je had verwacht."
+    ],
+    choices: [ { text: "Zoek naald en draad", next: "jackie_klaver_2", leaf:"→" } ]
+  },
+
+  jackie_klaver_2: {
+    label: "Naald en draad",
+    text: [
+      "Je zoekt een naald in oma's naaidoos, die ze altijd 'het rommelblik' noemde, en vindt hem pas nadat je drie keer in je eigen poot hebt geprikt. Jackie giechelt en houdt dan snel haar mandje voor je open, alsof ze het goed wil maken."
+    ],
+    choices: [ { text: "Naai het blaadje in de voering", next: "jackie_eind_klaver", leaf:"❦" } ]
+  },
+
+  jackie_vuurvlieg_1: {
+    label: "Vuurvliegstof",
+    text: [
+      "Het vuurvliegstof zit in een pot met een doek eroverheen, vastgebonden met een touwtje. Als je het touwtje losmaakt, glipt er meteen een vonkje langs je snuit naar buiten, en Jackie slaakt een gilletje van verrukking.",
+      "Het stof zelf ligt er slaperig en grijs bij. Oma liet het altijd eerst 'wakker worden', herinner je je. Hoe ze dat deed, weet je alleen niet meer. Het ging altijd zo snel."
+    ],
+    choices: [
+      { text: "Zet de pot vlak onder de avondlantaarn, daar wordt het vast sneller wakker", next: "jackie_vuurvlieg_oma", leaf:"❦" },
+      { text: "Tik drie keer zachtjes op de rand van de pot", next: "jackie_vuurvlieg_2", leaf:"❦" }
+    ]
+  },
+
+  jackie_vuurvlieg_oma: {
+    label: "Verlegen stof",
+    text: [
+      "Je zet de pot op de toonbank, recht onder de avondlantaarn. Het stof wordt niet wakker. Het kruipt juist weg in een hoekje van de pot, en de lantaarn gloeit een tikje feller, alsof hij wil laten zien hoe het moet.",
+      oma("Naast de lantaarn? Nee, nee, nee. Daar wordt vuurvliegstof niet wakker, kind, daar wordt het verlegen. Wie wil er nou gloeien naast zoiets? Drie tikjes op de rand. Zachtjes, alsof je op een deur klopt.")
+    ],
+    choices: [ { text: "Zet de pot terug en tik drie keer op de rand", next: "jackie_vuurvlieg_2", leaf:"→" } ]
+  },
+
+  jackie_vuurvlieg_2: {
+    label: "Wakker",
+    text: [
+      "Bij de derde tik gaat er een golfje licht door de pot, alsof er daarbinnen iets wakker wordt en zich uitrekt. De stofjes dwarrelen op en zakken weer, en hun licht wordt warm en geel, de kleur van een deur die op een kier staat terwijl er binnen iemand op je wacht.",
+      "Jackie drukt haar neus bijna tegen de pot."
+    ],
+    choices: [ { text: "Strooi een vingertopje in haar mandje", next: "jackie_eind_vuurvlieg", leaf:"❦" } ]
   },
 
   jackie_eind_klaver: {
@@ -98,6 +160,7 @@ Object.assign(STORY, {
     text: [
       "Je kent de kast nog niet goed genoeg, dus je pakt iets dat er warm en vriendelijk uitziet en stopt het tussen de spulletjes in haar mandje, zonder helemaal zeker te zijn wat het doet.",
       "\"Wat is het?\" vraagt Jackie. \"Een beetje van alles wat goed voelt,\" zeg je eerlijk, en om de een of andere reden is dat precies het juiste antwoord.",
+      "Achter in je hoofd blijft het even stil. Dan: " + oma("Staat niet in het boek, kind. Maar slecht is het niet."),
       "Ze knikt, alsof vaagheid met goede bedoelingen ook een soort magie is, en vertrekt met net iets meer rechte rug dan ze binnenkwam."
     ],
     onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok van iets warms: vaag, maar goedbedoeld."); tag(s,'onzeker'); },

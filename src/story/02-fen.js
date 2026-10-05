@@ -55,19 +55,80 @@ Object.assign(STORY, {
   fen_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Fen kijkt naar jou, met de blik van iemand die nu werkelijk alles zou proberen, inclusief dingen die niet bestaan."
+      "Je kijkt naar de potten. Fen kijkt naar jou, met de blik van iemand die nu werkelijk alles zou proberen, inclusief dingen die niet bestaan.",
+      "Je zucht, zo zacht dat Fen het niet hoort. Oma zou niet eens hebben hoeven kijken: één poot naar de plank, deksel eraf, een snufje van dit en een druppel van dat, en Fen zou alweer buiten hebben gestaan voor zijn kop was afgekoeld. Jij staat hier en weet niet eens bij welke pot je moet beginnen."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Eikengal-inkt: bind de herinnering vast aan een veer die hij bij zich draagt", next: "fen_eind_inkt", leaf:"❦" });
-        opts.push({ text: "Spiegeldauw: laat met een druppel het laatste heldere moment herleven", next: "fen_eind_dauw", leaf:"❦" });
+        opts.push({ text: "Eikengal-inkt: bind de herinnering vast aan een veer die hij bij zich draagt", next: "fen_inkt_1", leaf:"❦" });
+        opts.push({ text: "Spiegeldauw: laat met een druppel het laatste heldere moment herleven", next: "fen_dauw_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat naar helderheid ruikt, en hoop maar", next: "fen_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: speel gewoon samen hardop de ochtend van toen na", next: "fen_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  fen_inkt_1: {
+    label: "De inkt klaarmaken",
+    text: [
+      "Je haalt de pot eikengal-inkt van de plank. Hij is zwaarder dan je had verwacht, en de inkt is zo ingedikt dat hij meer op stroop lijkt dan op iets waarmee je kunt schrijven. Fen houdt zijn kop schuin. \"Hoort dat zo?\" \"Natuurlijk,\" zeg je, met meer overtuiging dan je hebt.",
+      "Oma deed er iets mee voor ze ging schrijven, dat weet je zeker. Alleen niet meer wát."
+    ],
+    choices: [
+      { text: "Schud de pot stevig door elkaar", next: "fen_inkt_oma", leaf:"❦" },
+      { text: "Rol de pot langzaam tussen je poten tot hij warm wordt", next: "fen_inkt_2", leaf:"❦" }
+    ]
+  },
+
+  fen_inkt_oma: {
+    label: "Och kind",
+    text: [
+      "Je schudt. De inkt klotst en er komen kleine belletjes naar boven. Ergens achter in je hoofd klakt iemand met haar tong.",
+      oma("Och kind, leren ze dat niet meer op school? Eikengal-inkt schud je niet. Dan komen er luchtbelletjes in de herinnering, en dan weet hij straks wel dát het een boom was, maar niet meer welke."),
+      "Je zet de pot neer, wacht tot de belletjes verdwenen zijn en rolt hem dan alsnog langzaam tussen je poten, zoals zij dat deed. Fen doet heel beleefd alsof hij niets heeft gezien."
+    ],
+    choices: [ { text: "Vraag Fen om een veer", next: "fen_inkt_2", leaf:"→" } ]
+  },
+
+  fen_inkt_2: {
+    label: "Een veer",
+    text: [
+      "Onder je poten wordt de inkt warm en soepel, en ineens ruikt hij naar natte herfstbladeren. Fen trekt, na enig aandringen, een veer uit zijn vleugel en houdt hem je met tegenzin voor. \"Niet mijn mooiste,\" waarschuwt hij. \"Die heb ik zelf nodig.\""
+    ],
+    choices: [ { text: "Pak een pen en laat Fen fluisteren wat hij nog weet", next: "fen_eind_inkt", leaf:"❦" } ]
+  },
+
+  fen_dauw_1: {
+    label: "Spiegeldauw",
+    text: [
+      "De spiegeldauw staat in het kleinste flesje van de plank, helemaal achteraan, alsof het niet gevonden wil worden. Als je het tegen het licht van het luik houdt, zie je je eigen gezicht erin, een beetje vervormd en met de hoed scheef.",
+      "Oma gebruikte het bijna nooit. " + oma("Te sterk spul voor kleine zorgen,") + " zei ze dan. Maar een kwijtgeraakte wintervoorraad is voor Fen geen kleine zorg, en eerlijk gezegd weet je ook niet goed waar je anders moet beginnen."
+    ],
+    choices: [ { text: "Houd het flesje in je poten tot het glas warm is", next: "fen_dauw_2", leaf:"❦" } ]
+  },
+
+  fen_dauw_2: {
+    label: "Hoeveel druppels?",
+    text: [
+      "Het glas wordt warm en de dauw begint zachtjes te glanzen. Fen zit al klaar met zijn snavel omhoog en zijn ogen dicht, alsof hij bij de dokter is. Nu nog de druppels. Of de druppel. Op het etiket staat niets."
+    ],
+    choices: [
+      { text: "Doe er voor de zekerheid drie op", next: "fen_dauw_oma", leaf:"❦" },
+      { text: "Laat er één op de punt van zijn snavel vallen", next: "fen_eind_dauw", leaf:"❦" }
+    ]
+  },
+
+  fen_dauw_oma: {
+    label: "Kind toch",
+    text: [
+      "Je kantelt het flesje al als je het hoort.",
+      oma("Drie? Kind toch. Met drie druppels ziet hij niet alleen die ene ochtend terug, maar ook elke keer dat hij als kuiken uit het nest is gevallen. Eén is genoeg. Het is niet voor niets zo'n klein flesje."),
+      "Je kijkt nog eens naar het etiket. Daar staat nu, in piepkleine letters, een 1. Je zou zweren dat die er net nog niet stond."
+    ],
+    choices: [ { text: "Laat één druppel vallen", next: "fen_eind_dauw", leaf:"❦" } ]
   },
 
   fen_eind_inkt: {
@@ -96,6 +157,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg om er slim gebruik van te maken, dus je pakt iets dat vaag naar dennennaald ruikt en geeft het hem mee, met een blik die meer hoop dan vertrouwen uitstraalt.",
+      "Achter in je hoofd hoor je iemand snuiven. " + oma("Dennennaald, kind? Dat is voor verstopte neuzen, niet voor verstopte noten."),
       "Fen ruikt eraan, niest en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
       "Hij vliegt in elk geval opgewekter weg dan hij binnenkwam, wat voor vandaag genoeg lijkt."
     ],

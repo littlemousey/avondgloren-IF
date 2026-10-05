@@ -66,19 +66,81 @@ Object.assign(STORY, {
   barry_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Barry kijkt liever naar de gloed van de avondlantaarn dan naar jou, makkelijker om op iets te hopen dat geen gezicht heeft."
+      "Je kijkt naar de potten. Barry kijkt liever naar de gloed van de avondlantaarn dan naar jou, makkelijker om op iets te hopen dat geen gezicht heeft.",
+      "Je wacht op de zucht die meestal komt, het moment waarop je bedenkt hoe oma dit in een handomdraai zou hebben opgelost. Hij komt maar half. Misschien twijfelde zij ook wel, elke keer opnieuw. Misschien liet ze het alleen nooit zien."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Distelpluis: houd met een bescherming de brand-droom er helemaal buiten", next: "barry_eind_distel", leaf:"❦" });
-        opts.push({ text: "Eikengal-inkt: bind een veilige herinnering vast om eerst te landen", next: "barry_eind_inkt", leaf:"❦" });
+        opts.push({ text: "Distelpluis: houd met een bescherming de brand-droom er helemaal buiten", next: "barry_distel_1", leaf:"❦" });
+        opts.push({ text: "Eikengal-inkt: bind een veilige herinnering vast om eerst te landen", next: "barry_inkt_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat er warmst uitziet, en hoop maar", next: "barry_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: zit gewoon een minuut samen bij de lantaarn", next: "barry_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  barry_distel_1: {
+    label: "Distelpluis",
+    text: [
+      "De pot distelpluis staat nog precies zoals je hem die eerste herfstochtend hebt neergezet: met het deksel naar beneden. Je draait hem om. Het pluis daarbinnen beweegt al, alsof het voelt dat er iets gaat gebeuren.",
+      "Barry kijkt toe met zijn mandje op schoot. Achter hem staat een luik open, en er waait een fris herfstbriesje de winkel in."
+    ],
+    choices: [
+      { text: "Draai meteen het deksel los, Barry zit te wachten", next: "barry_distel_oma", leaf:"❦" },
+      { text: "Doe eerst het luik dicht", next: "barry_distel_2", leaf:"❦" }
+    ]
+  },
+
+  barry_distel_oma: {
+    label: "Kind toch",
+    text: [
+      "Je draait het deksel los. Op hetzelfde moment waait er een vlaag door het open luik, en een wolkje distelpluis zweeft vrolijk omhoog, tussen de wortels boven je hoofd.",
+      oma("Kind toch. Distelpluis en tocht, dat zijn oude vrienden. Straks zit het in zijn stekels, in Fens veren en in de soep van de familie Grijs, overal behalve in je charme. Eerst het luik dicht."),
+      "Je doet het luik dicht en vangt met je hoed zoveel pluis uit de lucht als je kunt. Eindelijk is die te grote hoed ergens goed voor. Barry helpt mee, snuit omhoog, en voor het eerst sinds hij binnenkwam ziet hij er bijna vrolijk uit."
+    ],
+    choices: [ { text: "Kijk wat je nog overhebt", next: "barry_distel_2", leaf:"→" } ]
+  },
+
+  barry_distel_2: {
+    label: "Een charme binden",
+    text: [
+      "Met het luik dicht is het stil in de winkel, op het tikken van de lantaarn na. Het distelpluis ligt in je poot, zo licht dat je het alleen voelt omdat het kriebelt.",
+      "Oma bond zoiets altijd vast met iets van degene voor wie het bedoeld was, herinner je je. Je vraagt Barry om één stekel. Hij geeft hem zonder aarzelen."
+    ],
+    choices: [ { text: "Bind het pluis met de stekel tot een charme", next: "barry_eind_distel", leaf:"❦" } ]
+  },
+
+  barry_inkt_1: {
+    label: "Eikengal-inkt",
+    text: [
+      "Je pakt de pot eikengal-inkt en rolt hem langzaam tussen je poten tot hij warm wordt. Schudden doe je niet, zoveel weet je inmiddels. De inkt wordt soepel en ruikt naar natte herfstbladeren.",
+      "Nu heb je nog iets nodig om op te schrijven."
+    ],
+    choices: [
+      { text: "Pak een vel van het mooie papier uit oma's schrijftafel", next: "barry_inkt_oma", leaf:"❦" },
+      { text: "Scheur een reepje bast van het berkenhout bij de deur", next: "barry_inkt_2", leaf:"❦" }
+    ]
+  },
+
+  barry_inkt_oma: {
+    label: "Papier voor een egel",
+    text: [
+      "Je hebt de la van de schrijftafel al open als je haar hoort.",
+      oma("Papier? Voor een egel? Dat zit na één nacht verfrommeld tussen zijn stekels, kind. Berkenbast. Die is taai, die buigt mee en die heeft al meer winters doorstaan dan papier ooit zal doen."),
+      "Je schuift de la weer dicht en scheurt een reepje bast van het berkenhout bij de deur."
+    ],
+    choices: [ { text: "Leg het reepje op de toonbank", next: "barry_inkt_2", leaf:"→" } ]
+  },
+
+  barry_inkt_2: {
+    label: "Het moeilijkste deel",
+    text: [
+      "Het reepje berkenbast ligt voor je op de toonbank, met de warme inkt ernaast. Je kijkt Barry aan. Nu komt het moeilijkste deel, en dat staat in geen enkele pot."
+    ],
+    choices: [ { text: "Vraag Barry om een veilige herinnering", next: "barry_eind_inkt", leaf:"🗨" } ]
   },
 
   barry_eind_distel: {
@@ -107,6 +169,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg, dus je gaat op gevoel af: iets rond ruikend, een beetje als mos na regen, de magische versie van een hand op de schouder.",
+      oma("Mos is voor wie het koud heeft, kind.") + " Even blijft het stil in je hoofd. " + oma("Maar ach. Hij heeft het ook koud, op zijn manier."),
       "Het is niet precies de juiste spreuk voor wat Barry nodig heeft, maar het is goedbedoeld, en hij drinkt het rustig op en lijkt, zo niet genezen, dan toch minder alleen met de droom.",
       "\"Dank je,\" zegt hij, zachter dan toen hij binnenkwam. \"Ik denk dat ik vooral nodig had dat iemand het serieus nam.\" Hij vertrekt richting de markt, in een tempo dat niet gehaast is."
     ],

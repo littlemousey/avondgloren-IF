@@ -60,6 +60,7 @@
   .story-text{ font-size: 17px; line-height: 1.75; margin: 0 0 26px; }
   .story-text p{ margin: 0 0 14px; }
   .story-text p:last-child{ margin-bottom:0; }
+  .oma-stem{ font-style: italic; color: var(--ember-deep); }
   .choices{ display:flex; flex-direction:column; gap:10px; border-top: 1px solid var(--rule); padding-top: 20px; }
   .choice-btn{ text-align:left; background: transparent; border: 1px solid rgba(38,32,15,0.3); border-radius: 4px; padding: 12px 16px; font-family:'Lora', serif; font-size: 15px; color: var(--ink); cursor:pointer; transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
   .choice-btn:hover{ background: rgba(217,122,61,0.14); border-color: var(--ember-deep); }

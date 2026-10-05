@@ -73,6 +73,10 @@ Introductie (`intro_1`, `intro_2`) → openingsochtend (`start` →
 hetzelfde patroon: aankomst → warme drank aanbieden (kruidenthee /
 amandelmelk / sojamelk, elk met eigen reactie) → luisteren-of-niet-vragen →
 spreuk kiezen (of gewoon aanwezig zijn, altijd een optie zonder spreuk) →
+twee bereidingsstappen (`<personage>_<spreuk>_1`, `_2`) met precies één
+valkuil, die via een `_oma`-scène (oma's stem corrigeert, met een stukje
+kruidenwijsheid) gewoon doorloopt naar de volgende stap: fout kiezen kost
+niets, het levert alleen oma's commentaar op →
 einde met gloed/spreuken/tag update → finale (`finale_intro` →
 `finale_eind`) met een slotzin die reflecteert op de meest gekozen tag.
 
@@ -106,6 +110,13 @@ koppelingen tenzij daar expliciet om gevraagd wordt.
   niet de infinitiefvorm ("De dag beginnen", "Kijken wie het is"). Directe
   citaten van wat het personage zegt (bv. `"Rustig. Vertel me..."`) blijven
   vanzelfsprekend ongewijzigd, dat is dialoog, geen actiebeschrijving.
+- Oma's stem (wat het hoofdpersonage haar in gedachten hoort zeggen) gaat
+  altijd via de helper `oma("...")` uit `src/js/state.js`, zonder
+  aanhalingstekens; die zet de tekst cursief in `--ember-deep`. Haar toon:
+  droog, liefdevol, een beetje plagerig ("Och kind", "Kind toch"), vol
+  huis-tuin-en-keukenwijsheid over kruiden. Het hoofdpersonage twijfelt,
+  zucht en vergelijkt zich met oma; dat neemt per dag iets af, tot de
+  finale waarin oma alleen nog tevreden zucht.
 - Nieuwe personages of scènes volgen hetzelfde patroon als de bestaande
   vijf bezoekdagen (zie boven), tenzij anders gevraagd.
 

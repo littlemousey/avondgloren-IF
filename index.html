@@ -70,6 +70,7 @@
   .story-text{ font-size: 17px; line-height: 1.75; margin: 0 0 26px; }
   .story-text p{ margin: 0 0 14px; }
   .story-text p:last-child{ margin-bottom:0; }
+  .oma-stem{ font-style: italic; color: var(--ember-deep); }
   .choices{ display:flex; flex-direction:column; gap:10px; border-top: 1px solid var(--rule); padding-top: 20px; }
   .choice-btn{ text-align:left; background: transparent; border: 1px solid rgba(38,32,15,0.3); border-radius: 4px; padding: 12px 16px; font-family:'Lora', serif; font-size: 15px; color: var(--ink); cursor:pointer; transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
   .choice-btn:hover{ background: rgba(217,122,61,0.14); border-color: var(--ember-deep); }
@@ -152,6 +153,10 @@ function unlockNote(s, key, text){
   s.dagboek.push(text);
 }
 
+// Oma's stem in je hoofd, cursief weergegeven. Gebruik in een text-array:
+//   "Je hoort het haar zeggen: " + oma("Och kind...")
+function oma(t){ return `<span class="oma-stem">${t}</span>`; }
+
 // Wordt gevuld door de bestanden in src/story/.
 const STORY = {};
 
@@ -174,6 +179,7 @@ Object.assign(STORY, {
     label: "Een nieuw seizoen",
     text: [
       "Het is nu een paar maanden later, begin herfst. Je kent de winkel inmiddels aardig. Sommige potten staan er nog altijd zonder etiket bij, en 's ochtends blijft de lantaarn soms dof tot je hem voorzichtig toespreekt.",
+      "En soms, als je met een pot in je poten staat en geen idee hebt wat je ermee moet, hoor je haar nog. Niet echt natuurlijk. Meer zoals je een liedje blijft horen dat allang is afgelopen. " + oma("Eerst ruiken, kind. Dan pas denken.") + " Meestal heeft ze gelijk. Dat was vroeger ook al zo irritant.",
       "Vandaag is de eerste echt koude ochtend van het seizoen. Je adem hangt in wolkjes voor je gezicht als je de luiken opent. Op de bladeren voor de deur ligt een dunne laag rijp. Ergens buiten valt met een zacht getik een eikel tussen de wortels."
     ],
     choices: [ { text: "Begin de dag", next: "start", leaf:"→" } ]
@@ -214,7 +220,8 @@ Object.assign(STORY, {
     label: "De voorraadplank",
     text: [
       "Je werkt de krat door: distelpluis, zilverig en licht als adem, goed om dingen buiten te houden die er niet horen te zijn: nachtmerries, tocht, pech. Ernaast eikengal-inkt, donker en traag drogend, gebruikt om een herinnering vast te leggen zodat die niet kan wegglippen.",
-      "Je zet de potten op een rijtje in het licht van het open luik en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden."
+      "Je zet de potten op een rijtje in het licht van het open luik en voelt je, heel even, precies zo bekwaam als je oma altijd zei dat je zou worden.",
+      "Dan zet je de pot distelpluis neer en hoor je het meteen: " + oma("Met het deksel naar beneden, kind. Anders wil het eruit.") + " Je draait hem om. Zo bekwaam dus ook weer niet."
     ],
     onEnter: (s) => { s.flags.kentIngredienten = true; s.gloed += 5; },
     choices: [ { text: "Loop naar de deur en draai het bordje om", next: "opening", leaf:"→" } ]
@@ -224,7 +231,8 @@ Object.assign(STORY, {
     label: "Een vroege klop",
     text: [
       "De lantaarn gloeit nog amper en je hebt nog niets uitgestald, maar buiten staat iemand ongeduldig te ijsberen, en het voelt onaardig om diegene op formaliteiten te laten wachten.",
-      "Je doet open nog voordat het bordje is omgedraaid."
+      "Achter in je hoofd hoor je oma: " + oma("Een winkel die te vroeg opengaat, krijgt klanten die te vroeg komen.") + " Ze heeft vast gelijk.",
+      "Je doet toch open, nog voordat het bordje is omgedraaid."
     ],
     onEnter: (s) => { s.gloed += 2; },
     choices: [ { text: "Kijk wie het is", next: "dag1_intro", leaf:"→" } ]
@@ -298,19 +306,80 @@ Object.assign(STORY, {
   fen_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Fen kijkt naar jou, met de blik van iemand die nu werkelijk alles zou proberen, inclusief dingen die niet bestaan."
+      "Je kijkt naar de potten. Fen kijkt naar jou, met de blik van iemand die nu werkelijk alles zou proberen, inclusief dingen die niet bestaan.",
+      "Je zucht, zo zacht dat Fen het niet hoort. Oma zou niet eens hebben hoeven kijken: één poot naar de plank, deksel eraf, een snufje van dit en een druppel van dat, en Fen zou alweer buiten hebben gestaan voor zijn kop was afgekoeld. Jij staat hier en weet niet eens bij welke pot je moet beginnen."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Eikengal-inkt: bind de herinnering vast aan een veer die hij bij zich draagt", next: "fen_eind_inkt", leaf:"❦" });
-        opts.push({ text: "Spiegeldauw: laat met een druppel het laatste heldere moment herleven", next: "fen_eind_dauw", leaf:"❦" });
+        opts.push({ text: "Eikengal-inkt: bind de herinnering vast aan een veer die hij bij zich draagt", next: "fen_inkt_1", leaf:"❦" });
+        opts.push({ text: "Spiegeldauw: laat met een druppel het laatste heldere moment herleven", next: "fen_dauw_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat naar helderheid ruikt, en hoop maar", next: "fen_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: speel gewoon samen hardop de ochtend van toen na", next: "fen_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  fen_inkt_1: {
+    label: "De inkt klaarmaken",
+    text: [
+      "Je haalt de pot eikengal-inkt van de plank. Hij is zwaarder dan je had verwacht, en de inkt is zo ingedikt dat hij meer op stroop lijkt dan op iets waarmee je kunt schrijven. Fen houdt zijn kop schuin. \"Hoort dat zo?\" \"Natuurlijk,\" zeg je, met meer overtuiging dan je hebt.",
+      "Oma deed er iets mee voor ze ging schrijven, dat weet je zeker. Alleen niet meer wát."
+    ],
+    choices: [
+      { text: "Schud de pot stevig door elkaar", next: "fen_inkt_oma", leaf:"❦" },
+      { text: "Rol de pot langzaam tussen je poten tot hij warm wordt", next: "fen_inkt_2", leaf:"❦" }
+    ]
+  },
+
+  fen_inkt_oma: {
+    label: "Och kind",
+    text: [
+      "Je schudt. De inkt klotst en er komen kleine belletjes naar boven. Ergens achter in je hoofd klakt iemand met haar tong.",
+      oma("Och kind, leren ze dat niet meer op school? Eikengal-inkt schud je niet. Dan komen er luchtbelletjes in de herinnering, en dan weet hij straks wel dát het een boom was, maar niet meer welke."),
+      "Je zet de pot neer, wacht tot de belletjes verdwenen zijn en rolt hem dan alsnog langzaam tussen je poten, zoals zij dat deed. Fen doet heel beleefd alsof hij niets heeft gezien."
+    ],
+    choices: [ { text: "Vraag Fen om een veer", next: "fen_inkt_2", leaf:"→" } ]
+  },
+
+  fen_inkt_2: {
+    label: "Een veer",
+    text: [
+      "Onder je poten wordt de inkt warm en soepel, en ineens ruikt hij naar natte herfstbladeren. Fen trekt, na enig aandringen, een veer uit zijn vleugel en houdt hem je met tegenzin voor. \"Niet mijn mooiste,\" waarschuwt hij. \"Die heb ik zelf nodig.\""
+    ],
+    choices: [ { text: "Pak een pen en laat Fen fluisteren wat hij nog weet", next: "fen_eind_inkt", leaf:"❦" } ]
+  },
+
+  fen_dauw_1: {
+    label: "Spiegeldauw",
+    text: [
+      "De spiegeldauw staat in het kleinste flesje van de plank, helemaal achteraan, alsof het niet gevonden wil worden. Als je het tegen het licht van het luik houdt, zie je je eigen gezicht erin, een beetje vervormd en met de hoed scheef.",
+      "Oma gebruikte het bijna nooit. " + oma("Te sterk spul voor kleine zorgen,") + " zei ze dan. Maar een kwijtgeraakte wintervoorraad is voor Fen geen kleine zorg, en eerlijk gezegd weet je ook niet goed waar je anders moet beginnen."
+    ],
+    choices: [ { text: "Houd het flesje in je poten tot het glas warm is", next: "fen_dauw_2", leaf:"❦" } ]
+  },
+
+  fen_dauw_2: {
+    label: "Hoeveel druppels?",
+    text: [
+      "Het glas wordt warm en de dauw begint zachtjes te glanzen. Fen zit al klaar met zijn snavel omhoog en zijn ogen dicht, alsof hij bij de dokter is. Nu nog de druppels. Of de druppel. Op het etiket staat niets."
+    ],
+    choices: [
+      { text: "Doe er voor de zekerheid drie op", next: "fen_dauw_oma", leaf:"❦" },
+      { text: "Laat er één op de punt van zijn snavel vallen", next: "fen_eind_dauw", leaf:"❦" }
+    ]
+  },
+
+  fen_dauw_oma: {
+    label: "Kind toch",
+    text: [
+      "Je kantelt het flesje al als je het hoort.",
+      oma("Drie? Kind toch. Met drie druppels ziet hij niet alleen die ene ochtend terug, maar ook elke keer dat hij als kuiken uit het nest is gevallen. Eén is genoeg. Het is niet voor niets zo'n klein flesje."),
+      "Je kijkt nog eens naar het etiket. Daar staat nu, in piepkleine letters, een 1. Je zou zweren dat die er net nog niet stond."
+    ],
+    choices: [ { text: "Laat één druppel vallen", next: "fen_eind_dauw", leaf:"❦" } ]
   },
 
   fen_eind_inkt: {
@@ -339,6 +408,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg om er slim gebruik van te maken, dus je pakt iets dat vaag naar dennennaald ruikt en geeft het hem mee, met een blik die meer hoop dan vertrouwen uitstraalt.",
+      "Achter in je hoofd hoor je iemand snuiven. " + oma("Dennennaald, kind? Dat is voor verstopte neuzen, niet voor verstopte noten."),
       "Fen ruikt eraan, niest en zegt dan: \"Weet je, daar moest ik ineens weer aan die ochtend denken.\" Of het de geur is of gewoon het feit dat iemand meedacht, blijft onduidelijk.",
       "Hij vliegt in elk geval opgewekter weg dan hij binnenkwam, wat voor vandaag genoeg lijkt."
     ],
@@ -417,19 +487,81 @@ Object.assign(STORY, {
   jackie_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Jackie volgt elke beweging van je poten alsof je zo een stukje van haar moed voor haar gaat inpakken, wat, eerlijk gezegd, ook precies is wat er gaat gebeuren."
+      "Je kijkt naar de potten. Jackie volgt elke beweging van je poten alsof je zo een stukje van haar moed voor haar gaat inpakken, wat, eerlijk gezegd, ook precies is wat er gaat gebeuren.",
+      "Bij oma leek het altijd alsof de potten vanzelf naar voren schoven zodra er iemand binnenkwam die ze nodig had. Bij jou blijven ze gewoon staan, eigenwijs, sommige nog steeds zonder etiket. Je zucht, zet je hoed recht en steekt toch maar je poot uit."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Geperst klaverblad: duw met een beetje geluk de kleine kansen jouw kant op", next: "jackie_eind_klaver", leaf:"❦" });
-        opts.push({ text: "Vuurvliegstof: geef een lichtgevend beetje moed voor de donkere stukken", next: "jackie_eind_vuurvlieg", leaf:"❦" });
+        opts.push({ text: "Geperst klaverblad: duw met een beetje geluk de kleine kansen jouw kant op", next: "jackie_klaver_1", leaf:"❦" });
+        opts.push({ text: "Vuurvliegstof: geef een lichtgevend beetje moed voor de donkere stukken", next: "jackie_vuurvlieg_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat er dapper genoeg uitziet, en hoop maar", next: "jackie_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: teken samen het pad op de vloer na tot ze het uit haar hoofd kent", next: "jackie_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  jackie_klaver_1: {
+    label: "Het juiste blaadje",
+    text: [
+      "Het geperste klaver ligt tussen twee vellen vloeipapier in een oud kookboek van oma. Er zitten tientallen klavertjes tussen: de meeste met drie blaadjes, een paar met vier en één met vijf, wat je eerlijk gezegd een beetje verdacht vindt.",
+      "Jackie buigt zich over het boek. \"Welke werkt het best?\" Dat is een uitstekende vraag. Je zou willen dat je het antwoord wist."
+    ],
+    choices: [
+      { text: "Kies een klavertje vier: daar draait het toch om bij geluk?", next: "jackie_klaver_oma", leaf:"❦" },
+      { text: "Kies dat ene klavertje vijf, dan zit je zeker goed", next: "jackie_klaver_oma", leaf:"❦" },
+      { text: "Kies een gewoon klavertje drie", next: "jackie_klaver_2", leaf:"❦" }
+    ]
+  },
+
+  jackie_klaver_oma: {
+    label: "Een stem achter in je hoofd",
+    text: [
+      "Je poot zweeft al boven het blaadje als er een stem door je hoofd gaat die je zo goed kent dat je bijna omkijkt.",
+      oma("Och kind. Een klavertje vier is voor wie geluk zoekt, en een klavertje vijf is voor wie niet kan kiezen. Dat konijntje heeft geen geluk nodig. Een gewoon klavertje drie, dat is voor wie alles al bij zich heeft en dat even vergeten is."),
+      "Je pakt het klavertje drie. Tussen je poten voelt het steviger dan je had verwacht."
+    ],
+    choices: [ { text: "Zoek naald en draad", next: "jackie_klaver_2", leaf:"→" } ]
+  },
+
+  jackie_klaver_2: {
+    label: "Naald en draad",
+    text: [
+      "Je zoekt een naald in oma's naaidoos, die ze altijd 'het rommelblik' noemde, en vindt hem pas nadat je drie keer in je eigen poot hebt geprikt. Jackie giechelt en houdt dan snel haar mandje voor je open, alsof ze het goed wil maken."
+    ],
+    choices: [ { text: "Naai het blaadje in de voering", next: "jackie_eind_klaver", leaf:"❦" } ]
+  },
+
+  jackie_vuurvlieg_1: {
+    label: "Vuurvliegstof",
+    text: [
+      "Het vuurvliegstof zit in een pot met een doek eroverheen, vastgebonden met een touwtje. Als je het touwtje losmaakt, glipt er meteen een vonkje langs je snuit naar buiten, en Jackie slaakt een gilletje van verrukking.",
+      "Het stof zelf ligt er slaperig en grijs bij. Oma liet het altijd eerst 'wakker worden', herinner je je. Hoe ze dat deed, weet je alleen niet meer. Het ging altijd zo snel."
+    ],
+    choices: [
+      { text: "Zet de pot vlak onder de avondlantaarn, daar wordt het vast sneller wakker", next: "jackie_vuurvlieg_oma", leaf:"❦" },
+      { text: "Tik drie keer zachtjes op de rand van de pot", next: "jackie_vuurvlieg_2", leaf:"❦" }
+    ]
+  },
+
+  jackie_vuurvlieg_oma: {
+    label: "Verlegen stof",
+    text: [
+      "Je zet de pot op de toonbank, recht onder de avondlantaarn. Het stof wordt niet wakker. Het kruipt juist weg in een hoekje van de pot, en de lantaarn gloeit een tikje feller, alsof hij wil laten zien hoe het moet.",
+      oma("Naast de lantaarn? Nee, nee, nee. Daar wordt vuurvliegstof niet wakker, kind, daar wordt het verlegen. Wie wil er nou gloeien naast zoiets? Drie tikjes op de rand. Zachtjes, alsof je op een deur klopt.")
+    ],
+    choices: [ { text: "Zet de pot terug en tik drie keer op de rand", next: "jackie_vuurvlieg_2", leaf:"→" } ]
+  },
+
+  jackie_vuurvlieg_2: {
+    label: "Wakker",
+    text: [
+      "Bij de derde tik gaat er een golfje licht door de pot, alsof er daarbinnen iets wakker wordt en zich uitrekt. De stofjes dwarrelen op en zakken weer, en hun licht wordt warm en geel, de kleur van een deur die op een kier staat terwijl er binnen iemand op je wacht.",
+      "Jackie drukt haar neus bijna tegen de pot."
+    ],
+    choices: [ { text: "Strooi een vingertopje in haar mandje", next: "jackie_eind_vuurvlieg", leaf:"❦" } ]
   },
 
   jackie_eind_klaver: {
@@ -459,6 +591,7 @@ Object.assign(STORY, {
     text: [
       "Je kent de kast nog niet goed genoeg, dus je pakt iets dat er warm en vriendelijk uitziet en stopt het tussen de spulletjes in haar mandje, zonder helemaal zeker te zijn wat het doet.",
       "\"Wat is het?\" vraagt Jackie. \"Een beetje van alles wat goed voelt,\" zeg je eerlijk, en om de een of andere reden is dat precies het juiste antwoord.",
+      "Achter in je hoofd blijft het even stil. Dan: " + oma("Staat niet in het boek, kind. Maar slecht is het niet."),
       "Ze knikt, alsof vaagheid met goede bedoelingen ook een soort magie is, en vertrekt met net iets meer rechte rug dan ze binnenkwam."
     ],
     onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok van iets warms: vaag, maar goedbedoeld."); tag(s,'onzeker'); },
@@ -546,12 +679,43 @@ Object.assign(STORY, {
     label: "Twee kanten van dezelfde voorraad",
     text: [
       "Nu je allebei hebt gehoord, wordt duidelijk dat dit geen ruzie is over wie het beste werk levert, maar over wie zich het meest gezien voelt: Louise, die vroeg opstaat en bang is dat niemand het merkt; Levi, die zorgvuldig is en bang is dat niemand daar waarde aan hecht.",
-      "Ze zwijgen allebei, wat voor deze twee bijna een prestatie op zich is."
+      "Ze zwijgen allebei, wat voor deze twee bijna een prestatie op zich is.",
+      "Je zou willen dat oma hier stond. Zij had de twee met één opgetrokken wenkbrauw stilgekregen en daarna een oplossing uit haar mouw getoverd, alsof ze die daar speciaal voor vandaag had bewaard. Jij hebt alleen een half idee en de hoop dat de andere helft vanzelf komt."
     ],
     choices: [
-      { text: "Brouw een spinragdraad-band voor hen samen", next: "le_eind_spinrag", leaf:"❦" },
+      { text: "Vlecht een band van spinrag voor hen samen", next: "le_spinrag_1", leaf:"❦" },
       { text: "Geen spreuk: laat hen samen hardop tellen, om beurten", next: "le_eind_praten", leaf:"✦" }
     ]
+  },
+
+  le_spinrag_1: {
+    label: "De leverancier",
+    text: [
+      "Spinrag staat niet in een pot. Het hangt in de hoek boven de voorraadplank, waar een oude kruisspin het al jaren voor de winkel spint. Oma noemde haar 'de leverancier'. Een andere naam heb je haar nooit horen geven.",
+      "Je hebt er een draad van nodig. Louise en Levi kijken allebei toe, en voor het eerst vandaag zijn ze het ergens over eens: ze willen zien hoe dit afloopt."
+    ],
+    choices: [
+      { text: "Trek snel een draad los, voor de spin het doorheeft", next: "le_spinrag_oma", leaf:"❦" },
+      { text: "Vraag de spin eerst beleefd om een draad", next: "le_spinrag_2", leaf:"❦" }
+    ]
+  },
+
+  le_spinrag_oma: {
+    label: "Eerst vragen",
+    text: [
+      "Je poot is al halverwege als de spin één poot optilt. Eén maar. Het is genoeg.",
+      oma("Kind. Je trekt toch ook niet zomaar iemands trui uit? Eerst vragen. Altijd eerst vragen. En daarna bedanken, ook al zegt ze nooit iets terug."),
+      "Je trekt je poot terug, schraapt je keel en vraagt het zo beleefd als je kunt, met twee eekhoorns achter je die hun gegiechel nauwelijks binnen kunnen houden. Het is de eerste keer vandaag dat ze om hetzelfde lachen."
+    ],
+    choices: [ { text: "Wacht op de spin", next: "le_spinrag_2", leaf:"→" } ]
+  },
+
+  le_spinrag_2: {
+    label: "Een draad",
+    text: [
+      "Na een lange, keurende stilte laat de spin een draad zakken. Hij is zo dun dat je hem alleen ziet als het licht erop valt, en sterker dan hij eruitziet. Je bedankt haar. Ze reageert niet, wat bij spinnen waarschijnlijk 'graag gedaan' betekent."
+    ],
+    choices: [ { text: "Vlecht de draad tot twee armbandjes", next: "le_eind_spinrag", leaf:"❦" } ]
   },
 
   le_eind_spinrag: {
@@ -637,19 +801,80 @@ Object.assign(STORY, {
   mick_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Mick kijkt naar zijn eigen poten, alsof hij ze op dit moment niet als de zijne herkent."
+      "Je kijkt naar de potten. Mick kijkt naar zijn eigen poten, alsof hij ze op dit moment niet als de zijne herkent.",
+      "Je strijkt je hoed recht, wat niet helpt. Oma zou nu iets mompelen, zonder te kijken een pot pakken en het gewoon dóén. Jij weet inmiddels wel ongeveer wat er in de potten zit. Het is dat 'ongeveer' dat je nog steeds dwarszit."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Trillingsdraad: span een draad die precies terugtrilt zoals zijn gevoel dat ooit deed", next: "mick_eind_trilling", leaf:"❦" });
-        opts.push({ text: "Vuurvliegstof: geef hem de moed om het gewoon te proberen, niet om iets te repareren", next: "mick_eind_vuurvlieg", leaf:"❦" });
+        opts.push({ text: "Trillingsdraad: span een draad die precies terugtrilt zoals zijn gevoel dat ooit deed", next: "mick_trilling_1", leaf:"❦" });
+        opts.push({ text: "Vuurvliegstof: geef hem de moed om het gewoon te proberen, niet om iets te repareren", next: "mick_vuurvlieg_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat naar aarde en zekerheid ruikt, en hoop maar", next: "mick_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: vraag gewoon wanneer hij zijn gangen voor het laatst wél vertrouwde", next: "mick_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  mick_trilling_1: {
+    label: "Trillingsdraad",
+    text: [
+      "De trillingsdraad zit opgerold op een klosje, in een la die klemt. Pas na twee keer trekken schiet hij open, met een gerinkel dat door de hele winkel gaat. Mick schrikt. Jij ook, eerlijk gezegd.",
+      "De draad zoemt zachtjes, ook als je hem stilhoudt. Volgens oma moest hij eerst " + oma("leren naar wie hij moet luisteren") + ". Je hoopt maar dat dat vanzelf gaat."
+    ],
+    choices: [ { text: "Wikkel het uiteinde een paar keer om Micks poot", next: "mick_trilling_2", leaf:"❦" } ]
+  },
+
+  mick_trilling_2: {
+    label: "Afstemmen",
+    text: [
+      "Rond Micks poot zakt het gezoem een toon, alsof de draad aan hem moet wennen. Mick kijkt er wantrouwig naar, maar hij trekt zijn poot niet terug. Nu moet de draad nog worden afgestemd."
+    ],
+    choices: [
+      { text: "Draai aan het klosje tot de draad strak staat en helder klinkt", next: "mick_trilling_oma", leaf:"❦" },
+      { text: "Laat Mick de draad zelf aantrekken tot het voor hém goed voelt", next: "mick_eind_trilling", leaf:"❦" }
+    ]
+  },
+
+  mick_trilling_oma: {
+    label: "Voor wie?",
+    text: [
+      "Je draait. De draad komt strakker te staan en de toon klimt, mooi en helder. Je bent best tevreden, tot je haar hoort.",
+      oma("En voor wie stem je hem af, kind? Voor jou of voor hem? Een draad die voor jou goed klinkt, vertelt hem alleen wat jij voelt."),
+      "Je laat het klosje los. De draad zakt terug in zijn lage zoem, en je geeft het uiteinde aan Mick."
+    ],
+    choices: [ { text: "Laat Mick de draad zelf afstemmen", next: "mick_eind_trilling", leaf:"→" } ]
+  },
+
+  mick_vuurvlieg_1: {
+    label: "Vuurvliegstof",
+    text: [
+      "Je haalt de pot vuurvliegstof van de plank en tikt, zonder erbij na te denken, drie keer zachtjes op de rand. Het licht in de pot rekt zich uit.",
+      "Pas dan merk je wat je deed. Zo deed oma het ook, elke keer, en je hebt het jarenlang zien gebeuren zonder te weten dat je het onthield. Even sta je daar, met de pot in je poten, een beetje beduusd."
+    ],
+    choices: [ { text: "Schep wat stof in een zakje voor Mick", next: "mick_vuurvlieg_2", leaf:"❦" } ]
+  },
+
+  mick_vuurvlieg_2: {
+    label: "Hoeveel moed?",
+    text: [
+      "Mick kijkt naar het zakje alsof het iets uitmaakt hoe vol het wordt. Misschien maakt dat ook wel uit. Hoeveel moed heeft een mol nodig voor één gang?"
+    ],
+    choices: [
+      { text: "Doe er een flinke schep in: beter te veel dan te weinig", next: "mick_vuurvlieg_oma", leaf:"❦" },
+      { text: "Doe er een klein beetje in, net genoeg voor één gang", next: "mick_eind_vuurvlieg", leaf:"❦" }
+    ]
+  },
+
+  mick_vuurvlieg_oma: {
+    label: "Als zout",
+    text: [
+      "Je hebt de schep nog niet boven het zakje of je hoort het al.",
+      oma("Een hele schep? Kind, kind, kind. Dan graaft hij straks dwars onder de beek door en staat hij morgen weer op je drempel. Moed moet je doseren als zout: te weinig proef je niet, te veel en je hebt het hele gerecht verpest."),
+      "Je schudt het meeste terug in de pot. Wat overblijft is een klein beetje. Genoeg voor één gang."
+    ],
+    choices: [ { text: "Geef Mick het zakje", next: "mick_eind_vuurvlieg", leaf:"→" } ]
   },
 
   mick_eind_trilling: {
@@ -679,6 +904,7 @@ Object.assign(STORY, {
     text: [
       "Je kent de kast nog niet goed genoeg, dus je geeft hem iets dat naar vochtige aarde na regen ruikt, in de hoop dat vertrouwdheid zelf al iets doet.",
       "Mick ruikt eraan, lang, en zijn schouders zakken een fractie. \"Dit ruikt naar de gang van vroeger,\" zegt hij zacht. \"Voor het ongeluk.\"",
+      "Achter in je hoofd hoor je oma, zachter dan anders. " + oma("Niet wat ik zou hebben gepakt, kind. Maar soms is de goede geur belangrijker dan het goede kruid."),
       "Hij vertrekt niet genezen, maar wel iets rustiger, met de geur van een gang die ooit wél vanzelfsprekend voelde."
     ],
     onEnter: (s) => { s.gloed += 10; s.spreuken.push("Een gok naar natte aarde: een geur die iets terugbracht."); tag(s,'onzeker'); },
@@ -766,19 +992,81 @@ Object.assign(STORY, {
   barry_spreuk: {
     label: "Bij de plank",
     text: [
-      "Je kijkt naar de potten. Barry kijkt liever naar de gloed van de avondlantaarn dan naar jou, makkelijker om op iets te hopen dat geen gezicht heeft."
+      "Je kijkt naar de potten. Barry kijkt liever naar de gloed van de avondlantaarn dan naar jou, makkelijker om op iets te hopen dat geen gezicht heeft.",
+      "Je wacht op de zucht die meestal komt, het moment waarop je bedenkt hoe oma dit in een handomdraai zou hebben opgelost. Hij komt maar half. Misschien twijfelde zij ook wel, elke keer opnieuw. Misschien liet ze het alleen nooit zien."
     ],
     dynamicChoices: (s) => {
       const opts = [];
       if (s.flags.kentIngredienten){
-        opts.push({ text: "Distelpluis: houd met een bescherming de brand-droom er helemaal buiten", next: "barry_eind_distel", leaf:"❦" });
-        opts.push({ text: "Eikengal-inkt: bind een veilige herinnering vast om eerst te landen", next: "barry_eind_inkt", leaf:"❦" });
+        opts.push({ text: "Distelpluis: houd met een bescherming de brand-droom er helemaal buiten", next: "barry_distel_1", leaf:"❦" });
+        opts.push({ text: "Eikengal-inkt: bind een veilige herinnering vast om eerst te landen", next: "barry_inkt_1", leaf:"❦" });
       } else {
         opts.push({ text: "Pak iets dat er warmst uitziet, en hoop maar", next: "barry_eind_gok", leaf:"?" });
       }
       opts.push({ text: "Geen spreuk: zit gewoon een minuut samen bij de lantaarn", next: "barry_eind_praten", leaf:"✦" });
       return opts;
     }
+  },
+
+  barry_distel_1: {
+    label: "Distelpluis",
+    text: [
+      "De pot distelpluis staat nog precies zoals je hem die eerste herfstochtend hebt neergezet: met het deksel naar beneden. Je draait hem om. Het pluis daarbinnen beweegt al, alsof het voelt dat er iets gaat gebeuren.",
+      "Barry kijkt toe met zijn mandje op schoot. Achter hem staat een luik open, en er waait een fris herfstbriesje de winkel in."
+    ],
+    choices: [
+      { text: "Draai meteen het deksel los, Barry zit te wachten", next: "barry_distel_oma", leaf:"❦" },
+      { text: "Doe eerst het luik dicht", next: "barry_distel_2", leaf:"❦" }
+    ]
+  },
+
+  barry_distel_oma: {
+    label: "Kind toch",
+    text: [
+      "Je draait het deksel los. Op hetzelfde moment waait er een vlaag door het open luik, en een wolkje distelpluis zweeft vrolijk omhoog, tussen de wortels boven je hoofd.",
+      oma("Kind toch. Distelpluis en tocht, dat zijn oude vrienden. Straks zit het in zijn stekels, in Fens veren en in de soep van de familie Grijs, overal behalve in je charme. Eerst het luik dicht."),
+      "Je doet het luik dicht en vangt met je hoed zoveel pluis uit de lucht als je kunt. Eindelijk is die te grote hoed ergens goed voor. Barry helpt mee, snuit omhoog, en voor het eerst sinds hij binnenkwam ziet hij er bijna vrolijk uit."
+    ],
+    choices: [ { text: "Kijk wat je nog overhebt", next: "barry_distel_2", leaf:"→" } ]
+  },
+
+  barry_distel_2: {
+    label: "Een charme binden",
+    text: [
+      "Met het luik dicht is het stil in de winkel, op het tikken van de lantaarn na. Het distelpluis ligt in je poot, zo licht dat je het alleen voelt omdat het kriebelt.",
+      "Oma bond zoiets altijd vast met iets van degene voor wie het bedoeld was, herinner je je. Je vraagt Barry om één stekel. Hij geeft hem zonder aarzelen."
+    ],
+    choices: [ { text: "Bind het pluis met de stekel tot een charme", next: "barry_eind_distel", leaf:"❦" } ]
+  },
+
+  barry_inkt_1: {
+    label: "Eikengal-inkt",
+    text: [
+      "Je pakt de pot eikengal-inkt en rolt hem langzaam tussen je poten tot hij warm wordt. Schudden doe je niet, zoveel weet je inmiddels. De inkt wordt soepel en ruikt naar natte herfstbladeren.",
+      "Nu heb je nog iets nodig om op te schrijven."
+    ],
+    choices: [
+      { text: "Pak een vel van het mooie papier uit oma's schrijftafel", next: "barry_inkt_oma", leaf:"❦" },
+      { text: "Scheur een reepje bast van het berkenhout bij de deur", next: "barry_inkt_2", leaf:"❦" }
+    ]
+  },
+
+  barry_inkt_oma: {
+    label: "Papier voor een egel",
+    text: [
+      "Je hebt de la van de schrijftafel al open als je haar hoort.",
+      oma("Papier? Voor een egel? Dat zit na één nacht verfrommeld tussen zijn stekels, kind. Berkenbast. Die is taai, die buigt mee en die heeft al meer winters doorstaan dan papier ooit zal doen."),
+      "Je schuift de la weer dicht en scheurt een reepje bast van het berkenhout bij de deur."
+    ],
+    choices: [ { text: "Leg het reepje op de toonbank", next: "barry_inkt_2", leaf:"→" } ]
+  },
+
+  barry_inkt_2: {
+    label: "Het moeilijkste deel",
+    text: [
+      "Het reepje berkenbast ligt voor je op de toonbank, met de warme inkt ernaast. Je kijkt Barry aan. Nu komt het moeilijkste deel, en dat staat in geen enkele pot."
+    ],
+    choices: [ { text: "Vraag Barry om een veilige herinnering", next: "barry_eind_inkt", leaf:"🗨" } ]
   },
 
   barry_eind_distel: {
@@ -807,6 +1095,7 @@ Object.assign(STORY, {
     label: "Een gok",
     text: [
       "Je kent de kast nog niet goed genoeg, dus je gaat op gevoel af: iets rond ruikend, een beetje als mos na regen, de magische versie van een hand op de schouder.",
+      oma("Mos is voor wie het koud heeft, kind.") + " Even blijft het stil in je hoofd. " + oma("Maar ach. Hij heeft het ook koud, op zijn manier."),
       "Het is niet precies de juiste spreuk voor wat Barry nodig heeft, maar het is goedbedoeld, en hij drinkt het rustig op en lijkt, zo niet genezen, dan toch minder alleen met de droom.",
       "\"Dank je,\" zegt hij, zachter dan toen hij binnenkwam. \"Ik denk dat ik vooral nodig had dat iemand het serieus nam.\" Hij vertrekt richting de markt, in een tempo dat niet gehaast is."
     ],
@@ -849,6 +1138,7 @@ Object.assign(STORY, {
     text: [
       "Je vouwt het laatste blaadje open. Geen recept deze keer: gewoon een paar zinnen, in het handschrift dat je inmiddels beter kent dan je eigen gedachten.",
       "Je kijkt naar de winkel om je heen: naar Fen op de vensterbank, naar het rustige gepraat van Louise en Levi, naar Mick's voetstappen die vol vertrouwen door de sneeuw lopen, naar Barry die de kom bessen op tafel zet zonder één keer om te kijken naar de deur.",
+      "Ergens achter in je hoofd wacht je op oma's stem, op een 'och kind' over de kom bessen die scheef staat, of over de hoed. Er komt niets. Of nee, er komt wel iets, maar het is geen opmerking. Het is een tevreden zucht, het soort dat ze slaakte als ze aan het eind van de dag eindelijk ging zitten.",
       "SIGNATURE_LINE",
       "Buiten begint het licht te zachtjes te vallen zoals het bij de eerste vorst hoort. Binnen blijft de avondlantaarn gloeien, precies zoals hij dat al deed voor jij de winkel overnam, en precies zoals hij dat, vermoed je, nog heel lang zal blijven doen."
     ],

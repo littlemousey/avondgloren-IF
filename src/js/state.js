@@ -11,5 +11,9 @@ function unlockNote(s, key, text){
   s.dagboek.push(text);
 }
 
+// Oma's stem in je hoofd, cursief weergegeven. Gebruik in een text-array:
+//   "Je hoort het haar zeggen: " + oma("Och kind...")
+function oma(t){ return `<span class="oma-stem">${t}</span>`; }
+
 // Wordt gevuld door de bestanden in src/story/.
 const STORY = {};

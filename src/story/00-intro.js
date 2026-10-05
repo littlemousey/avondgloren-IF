@@ -17,6 +17,7 @@ Object.assign(STORY, {
     label: "Een nieuw seizoen",
     text: [
       "Het is nu een paar maanden later, begin herfst. Je kent de winkel inmiddels aardig. Sommige potten staan er nog altijd zonder etiket bij, en 's ochtends blijft de lantaarn soms dof tot je hem voorzichtig toespreekt.",
+      "En soms, als je met een pot in je poten staat en geen idee hebt wat je ermee moet, hoor je haar nog. Niet echt natuurlijk. Meer zoals je een liedje blijft horen dat allang is afgelopen. " + oma("Eerst ruiken, kind. Dan pas denken.") + " Meestal heeft ze gelijk. Dat was vroeger ook al zo irritant.",
       "Vandaag is de eerste echt koude ochtend van het seizoen. Je adem hangt in wolkjes voor je gezicht als je de luiken opent. Op de bladeren voor de deur ligt een dunne laag rijp. Ergens buiten valt met een zacht getik een eikel tussen de wortels."
     ],
     choices: [ { text: "Begin de dag", next: "start", leaf:"→" } ]
